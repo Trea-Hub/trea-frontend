@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary-container": "#cc003c", "inverse-primary": "#b91a24", "surface-tint": "#ffb3ad", "tertiary-fixed": "#e2e2e3", "primary-fixed-dim": "#ffb3ad", "outline": "#ab8986", "on-tertiary": "#2f3132", "on-error": "#690005", "on-tertiary-fixed-variant": "#454748", "primary-container": "#ff5451", "on-error-container": "#ffdad6", "surface": "#131313", "surface-container-low": "#1c1b1b", "secondary-fixed-dim": "#ffb3b6", "surface-container": "#201f1f", "on-surface-variant": "#e4beba", "primary": "#ffb3ad", "tertiary-container": "#909192", "on-secondary-fixed-variant": "#920028", "tertiary": "#c6c6c7", "inverse-surface": "#e5e2e1", "primary-fixed": "#ffdad7", "surface-bright": "#3a3939", "on-tertiary-fixed": "#1a1c1d", "on-secondary-container": "#ffdcdc", "secondary-fixed": "#ffdada", "tertiary-fixed-dim": "#c6c6c7", "surface-variant": "#353534", "on-primary-fixed": "#410004", "on-surface": "#e5e2e1", "on-tertiary-container": "#282a2b", "inverse-on-surface": "#313030", "surface-container-highest": "#353534", "on-secondary": "#68001a", "surface-container-high": "#2a2a2a", "on-secondary-fixed": "#40000c", "background": "#131313", "surface-dim": "#131313", "error": "#ffb4ab", "on-primary-container": "#5c0008", "surface-container-lowest": "#0e0e0e", "on-primary-fixed-variant": "#930013", "on-primary": "#68000a", "outline-variant": "#5b403e", "secondary": "#ffb3b6", "error-container": "#93000a", "on-background": "#e5e2e1" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter": "1.5rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "margin": "3rem", "space-md": "1rem", "space-lg": "1.5rem", "space-xl": "2.5rem", "margin-mobile": "1.25rem" }, "fontFamily": { "label-mono": ["Geist"], "headline-sm": ["Geist"], "headline-md": ["Geist"], "headline-xl": ["Geist"], "headline-xl-mobile": ["Geist"], "headline-lg": ["Geist"], "body-lg": ["Inter"], "display-hero": ["Geist"], "label-caps": ["Geist"], "body-md": ["Inter"], "body-sm": ["Inter"], "display-hero-mobile": ["Geist"] }, "fontSize": { "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "500" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "600" }], "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.04em", "fontWeight": "700" }], "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }], "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.03em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="Trea Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Ww40inGHjn46emaG6LBQY79iEHtmTgVhg8v6vqY3WwChhc1qPp14wKDGsNMV36DVrsONIOD119spGawqKWRz6G9ezqfkZG9Na8fLhJHqaSuiuFSzehriQ9wfKuc5IdOV51Mp0ySF0_DLf44uYaZhOiHI1wss09H5bmiTM2-_JuRFmEVeA8jEzQiwh8o5Jde_vxkZ_jg8IK7UjiwA612NzvF_fX6VTEXUqhAXocRyRj6AluZQHM18yF0jw"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Trea</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-mono text-label-mono text-tertiary">Stellar Mainnet</span></div><div class="flex items-center gap-space-xs"><span class="hidden font-headline-sm text-headline-sm text-on-surface">My Tickets</span><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuXodJxvy-va-78PTdiU8ZhKQdHyJwQNqNFdepsOWnUrq659A3aTmf7VBKewRz1Tv6NauE_5vI8gnVfo7SP3O_hkMHlTTrXnfSBuJcS6CoLuhoLo3043VL5ngYQ92abrNW0b_0lKFuIRAJmI3WdBX3fm3vNsEpfMcQmm0A8-1iaJZ9MG-_siQsr6lnhHu3QoLo8urCkVnNInmNoEj4cEtpxrHwmgrhw4RZrejct814COaDYLwlHix"/><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface"></span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface flex-1"><div class="flex flex-col w-full px-gutter-mobile gap-space-md">
+<div class="flex flex-col gap-space-xs mt-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface tracking-tight">My Tickets</span>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-primary font-label-mono text-label-mono font-bold shadow-sm">3 Total</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-tertiary hover:text-on-surface shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">Cryptographic event credentials and verifiable check-in passes synced with Stellar.</p>
+</div>
+<div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-lowest shadow-inner" id="filterTabs">
+<button class="tab-btn flex-1 py-1.5 px-space-xs rounded-lg font-label-caps text-label-caps text-center transition-all bg-primary-container text-on-primary-container shadow-md" onclick="switchTab(this, 'upcoming')">
+      Upcoming (2)
+    </button>
+<button class="tab-btn flex-1 py-1.5 px-space-xs rounded-lg font-label-caps text-label-caps text-center text-tertiary transition-all hover:text-on-surface" onclick="switchTab(this, 'past')">
+      Past (1)
+    </button>
+<button class="tab-btn flex-1 py-1.5 px-space-xs rounded-lg font-label-caps text-label-caps text-center text-tertiary opacity-60 cursor-not-allowed" onclick="switchTab(this, 'waitlist')">
+      Waitlist (0)
+    </button>
+</div>
+<div class="flex flex-col gap-space-md" id="upcomingList">
+<div class="relative overflow-hidden rounded-2xl bg-surface-container shadow-xl">
+<div class="h-1.5 w-full bg-gradient-to-r from-primary-container via-secondary to-transparent"></div>
+<div class="p-space-md flex flex-col gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-mono text-label-mono uppercase tracking-wider">Confirmed • On-Chain</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-1 line-clamp-2">Meridian Global Builders Summit 2025</h3>
+<div class="flex items-center gap-1 text-tertiary font-body-sm text-body-sm mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">calendar_month</span>
+<span>Oct 14-16, 2025</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Singapore</span>
+</div>
+</div>
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Futuristic glowing red neon architectural convention center in downtown Singapore at dusk with crisp sharp laser geometric lighting and dark atmospheric cyber aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAGSGk_hHT8whBJgDBDUPqWioBqwPaAuQkZzs8g-u_FI_0oFrp8kLzZHz56xncK2Bdym-xfql8KW5wyEtSkTsTHlk5h0DS9LbONv0Obv7pZmKBTmBJ7jwQ_wZ4IL95Wifqt3mw84t-IzMihd_jAjRxZTU88z7WMI2I6zRzEXirZKDMqDV8wVBbnfy9aOFeUwnTAS1xvaSXOGi8PD3-n0KIyTGeFAkgE7F1IXrNkLeqmSKchgAkidtL"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Pass Identifier</span>
+<span class="font-label-mono text-label-mono font-bold text-on-surface">#TREA-9482</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-surface-container-high text-primary font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>Soroban v22 Validated</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<button class="w-full py-2.5 px-space-md rounded-xl bg-primary-container text-on-primary-container font-headline-sm text-[15px] font-semibold flex items-center justify-center gap-2 shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] active:scale-[0.98] transition-all" onclick="openPassModal('TREA-9482')">
+<span class="material-symbols-outlined text-[18px]">qr_code_2</span>
+<span>View Passcode / Dynamic QR</span>
+</button>
+<div class="flex items-center justify-between pt-1">
+<button class="py-1 px-space-xs font-label-mono text-label-mono text-tertiary hover:text-error transition-colors flex items-center gap-1" onclick="triggerRefundToast()">
+<span class="material-symbols-outlined text-[14px]">undo</span>
+<span>Request Self-Refund</span>
+</button>
+<div class="flex items-center gap-1 text-outline font-label-mono text-[11px]">
+<span class="material-symbols-outlined text-[13px] text-primary">schedule</span>
+<span>42h left to refund</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-2xl bg-surface-container shadow-xl">
+<div class="p-space-md flex flex-col gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-mono text-label-mono uppercase tracking-wider">Confirmed • Free Tier</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-1 line-clamp-2">Smart Contracts with Soroban Workshop</h3>
+<div class="flex items-center gap-1 text-tertiary font-body-sm text-body-sm mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">videocam</span>
+<span>Nov 02, 2025</span>
+<span class="mx-1">•</span>
+<span>Virtual Live Session</span>
+</div>
+</div>
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Minimalist dark code IDE workspace terminal displaying Soroban Rust smart contract compilation with warm crimson ambient backlighting and clean cyber interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbYw3O4o67IQU-Bj2atttmu1wSF7qe6X0e16ujpwBuiX8eFMhaMggra9DN8NAt8c8baG3Wt-4ifWAfuiVx4m5vgl-PM60OHqhO6s4knNKhPVjBnwZC3HN5GsW8m_uVuJpa5wn91JJnO38DYzb8CVVSqyA_0MTRindxlmKb2f2yZdeMkOC00bCs8YNtB1cq7MU-kOzqQ50H3vLHkTeEPmMruVT6l6oN5MMhTeY44GZRL6KQEtbGb3Ev"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Access Link Status</span>
+<span class="font-label-mono text-label-mono text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              Unlocked in Wallet
+            </span>
+</div>
+<span class="font-label-mono text-label-mono text-tertiary">Pass #TREA-1108</span>
+</div>
+<button class="w-full py-2.5 px-space-md rounded-xl bg-surface-container-high text-on-surface font-headline-sm text-[15px] font-semibold flex items-center justify-center gap-2 shadow-sm hover:bg-surface-bright active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px] text-primary">play_circle</span>
+<span>Join Stream / View Details</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-md hidden" id="pastList">
+<div class="relative overflow-hidden rounded-2xl bg-surface-container shadow-xl">
+<div class="p-space-md flex flex-col gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-mono text-label-mono uppercase tracking-wider">Checked-In • Attended</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-1">Stellar Hacker House Austin</h3>
+<div class="flex items-center gap-1 text-tertiary font-body-sm text-body-sm mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">history</span>
+<span>Aug 2025</span>
+<span class="mx-1">•</span>
+<span>Austin, TX</span>
+</div>
+</div>
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+<img class="w-full h-full object-cover" data-alt="High tech Austin Texas loft hacker venue filled with multi-monitor developer setups glowing neon signs deep obsidian shadows and focused coding energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDupdq02pr5hIaWrc5X64zvm_08-AkHGsfEvbseyO_QtRX9APEEYi0x9AC6Os4A6osoUZ9vqUJ808Sdox2aqKPR7MmjwtTGPiWhu4aDaLNI3NO3vm2wRQg0oNd0AXrZVPAjhfw5Y4uXet5ofdAy_Z9zHBMAU65R7xhMYV6NyCAqWxmjyH-BvY3Mrile_E-x_THwT8fNEO4Urr6YH0DxtJlUdVbQ1h9mfyEI2vLcJhGnP7fqtcQlnoOS"/>
+</div>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-lowest">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-[13px] text-on-surface truncate">Austin Hacker PoAP #0441</span>
+<span class="font-label-mono text-[11px] text-tertiary">Minted to GBLX...78AQ</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<button class="w-full py-2.5 px-space-md rounded-xl bg-surface-container-high text-on-surface font-headline-sm text-[15px] font-semibold flex items-center justify-center gap-2 hover:bg-surface-bright active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px] text-primary">military_tech</span>
+<span>View PoAP / NFT Badge</span>
+</button>
+<a class="w-full py-2 px-space-md rounded-xl bg-surface-container-lowest text-primary font-label-mono text-label-mono flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">photo_library</span>
+<span>Event Photo Gallery (142 photos)</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden flex flex-col items-center justify-center p-space-xl rounded-2xl bg-surface-container text-center gap-space-sm" id="waitlistEmpty">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[28px]">hourglass_empty</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">No Waitlisted Events</span>
+<p class="font-body-sm text-body-sm text-tertiary max-w-[240px]">You are not currently in any queues. Explore hot drops to get early access tickets.</p>
+</div>
+<div class="fixed inset-0 z-50 bg-background/80 backdrop-blur-md hidden flex flex-col justify-end p-gutter-mobile" id="passModal">
+<div class="w-full rounded-2xl bg-surface-container p-space-md flex flex-col gap-space-md shadow-2xl relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-primary font-bold tracking-wide">SECURE ADMIT PASS</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-tertiary hover:text-on-surface" onclick="closePassModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="flex flex-col items-center justify-center p-space-lg rounded-xl bg-surface-container-lowest gap-space-md">
+<div class="p-3 bg-on-surface rounded-xl flex items-center justify-center shadow-lg">
+<svg class="w-44 h-44" fill="currentColor" viewbox="0 0 100 100">
+<path class="text-surface" d="M0 0h30v30H0V0zm6 6v18h18V6H6zm70-6h24v30H76V0zm6 6v18h12V6H82zM0 70h30v30H0V70zm6 6v18h18V76H6zm40-70h8v14h-8V6zm14 0h8v8h-8V6zm-14 20h14v8H46v-8zm24 6h10v8H70v-8zm-24 16h8v8h-8v-8zm14 0h8v14h-8V48zm14 8h10v8H74v-8zm-44 14h8v8h-8v-8zm14 0h14v8H44v-8zm30 0h10v14H74V70zm-30 14h8v16h-8V84zm14 0h8v8h-8v-8zm14 8h10v8H72v-8z"></path>
+</svg>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-label-mono text-label-mono text-on-surface font-semibold tracking-widest" id="modalPassId">#TREA-9482</span>
+<span class="font-label-caps text-label-caps text-tertiary mt-0.5">Rotating cryptographic payload updates every 30s</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-space-xs font-body-sm text-body-sm text-tertiary">
+<span>Stellar Tx Ref</span>
+<span class="font-label-mono text-label-mono text-on-surface">9a4f...31bc</span>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-surface-container-high text-on-surface font-headline-sm text-[15px] font-semibold" onclick="closePassModal()">
+        Dismiss Pass
+      </button>
+</div>
+</div>
+<div class="fixed bottom-20 left-4 right-4 z-50 p-space-md rounded-xl bg-surface-container-high text-on-surface flex items-center justify-between shadow-2xl transition-all duration-300 translate-y-28 opacity-0 pointer-events-none" id="refundToast">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+<span class="font-body-sm text-body-sm">Self-refund request window initiated.</span>
+</div>
+<button class="font-label-mono text-label-mono text-primary uppercase font-bold" onclick="hideRefundToast()">Close</button>
+</div>
+</div>
+<script>
+  function switchTab(btn, category) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-md');
+      b.classList.add('text-tertiary');
+    });
+    btn.classList.remove('text-tertiary');
+    btn.classList.add('bg-primary-container', 'text-on-primary-container', 'shadow-md');
+
+    const upcoming = document.getElementById('upcomingList');
+    const past = document.getElementById('pastList');
+    const waitlist = document.getElementById('waitlistEmpty');
+
+    if (category === 'upcoming') {
+      upcoming.classList.remove('hidden');
+      past.classList.add('hidden');
+      waitlist.classList.add('hidden');
+    } else if (category === 'past') {
+      upcoming.classList.add('hidden');
+      past.classList.remove('hidden');
+      waitlist.classList.add('hidden');
+    } else if (category === 'waitlist') {
+      upcoming.classList.add('hidden');
+      past.classList.add('hidden');
+      waitlist.classList.remove('hidden');
+    }
+  }
+
+  function openPassModal(passId) {
+    document.getElementById('modalPassId').textContent = '#' + passId;
+    document.getElementById('passModal').classList.remove('hidden');
+  }
+
+  function closePassModal() {
+    document.getElementById('passModal').classList.add('hidden');
+  }
+
+  function triggerRefundToast() {
+    const toast = document.getElementById('refundToast');
+    toast.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      hideRefundToast();
+    }, 3500);
+  }
+
+  function hideRefundToast() {
+    const toast = document.getElementById('refundToast');
+    toast.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="discover" href="#"><span class="material-symbols-outlined text-[22px]">explore</span><span class="font-label-caps text-label-caps">Discover</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs transition-colors text-primary font-bold" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[22px]">confirmation_number</span><span class="font-label-caps text-label-caps">Tickets</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] -mt-4" data-path="create" href="#"><div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] hover:bg-secondary-container transition-all"><span class="material-symbols-outlined text-[26px]">add</span></div><span class="font-label-caps text-label-caps text-tertiary mt-1">Create</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="organizer" href="#"><span class="material-symbols-outlined text-[22px]">insights</span><span class="font-label-caps text-label-caps">Manage</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="gallery-activity" href="#"><span class="material-symbols-outlined text-[22px]">photo_library</span><span class="font-label-caps text-label-caps">Gallery</span></a></div></nav></body></html>

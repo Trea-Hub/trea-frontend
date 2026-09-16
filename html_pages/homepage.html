@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary-container": "#cc003c", "inverse-primary": "#b91a24", "surface-tint": "#ffb3ad", "tertiary-fixed": "#e2e2e3", "primary-fixed-dim": "#ffb3ad", "outline": "#ab8986", "on-tertiary": "#2f3132", "on-error": "#690005", "on-tertiary-fixed-variant": "#454748", "primary-container": "#ff5451", "on-error-container": "#ffdad6", "surface": "#131313", "surface-container-low": "#1c1b1b", "secondary-fixed-dim": "#ffb3b6", "surface-container": "#201f1f", "on-surface-variant": "#e4beba", "primary": "#ffb3ad", "tertiary-container": "#909192", "on-secondary-fixed-variant": "#920028", "tertiary": "#c6c6c7", "inverse-surface": "#e5e2e1", "primary-fixed": "#ffdad7", "surface-bright": "#3a3939", "on-tertiary-fixed": "#1a1c1d", "on-secondary-container": "#ffdcdc", "secondary-fixed": "#ffdada", "tertiary-fixed-dim": "#c6c6c7", "surface-variant": "#353534", "on-primary-fixed": "#410004", "on-surface": "#e5e2e1", "on-tertiary-container": "#282a2b", "inverse-on-surface": "#313030", "surface-container-highest": "#353534", "on-secondary": "#68001a", "surface-container-high": "#2a2a2a", "on-secondary-fixed": "#40000c", "background": "#131313", "surface-dim": "#131313", "error": "#ffb4ab", "on-primary-container": "#5c0008", "surface-container-lowest": "#0e0e0e", "on-primary-fixed-variant": "#930013", "on-primary": "#68000a", "outline-variant": "#5b403e", "secondary": "#ffb3b6", "error-container": "#93000a", "on-background": "#e5e2e1" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter": "1.5rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "margin": "3rem", "space-md": "1rem", "space-lg": "1.5rem", "space-xl": "2.5rem", "margin-mobile": "1.25rem" }, "fontFamily": { "label-mono": ["Geist"], "headline-sm": ["Geist"], "headline-md": ["Geist"], "headline-xl": ["Geist"], "headline-xl-mobile": ["Geist"], "headline-lg": ["Geist"], "body-lg": ["Inter"], "display-hero": ["Geist"], "label-caps": ["Geist"], "body-md": ["Inter"], "body-sm": ["Inter"], "display-hero-mobile": ["Geist"] }, "fontSize": { "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "500" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "600" }], "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.04em", "fontWeight": "700" }], "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }], "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.03em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="Trea Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Ww40inGHjn46emaG6LBQY79iEHtmTgVhg8v6vqY3WwChhc1qPp14wKDGsNMV36DVrsONIOD119spGawqKWRz6G9ezqfkZG9Na8fLhJHqaSuiuFSzehriQ9wfKuc5IdOV51Mp0ySF0_DLf44uYaZhOiHI1wss09H5bmiTM2-_JuRFmEVeA8jEzQiwh8o5Jde_vxkZ_jg8IK7UjiwA612NzvF_fX6VTEXUqhAXocRyRj6AluZQHM18yF0jw"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Trea</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-mono text-label-mono text-tertiary">Stellar Mainnet</span></div><div class="flex items-center gap-space-xs"><span class="hidden font-headline-sm text-headline-sm text-on-surface">Discover</span><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuXodJxvy-va-78PTdiU8ZhKQdHyJwQNqNFdepsOWnUrq659A3aTmf7VBKewRz1Tv6NauE_5vI8gnVfo7SP3O_hkMHlTTrXnfSBuJcS6CoLuhoLo3043VL5ngYQ92abrNW0b_0lKFuIRAJmI3WdBX3fm3vNsEpfMcQmm0A8-1iaJZ9MG-_siQsr6lnhHu3QoLo8urCkVnNInmNoEj4cEtpxrHwmgrhw4RZrejct814COaDYLwlHix"/><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface"></span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Search and QR Quick Scan Row -->
+<section class="px-gutter-mobile pt-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-1 flex items-center bg-surface-container-lowest rounded-xl shadow-inner px-space-md py-space-sm transition-all focus-within:shadow-[0_0_16px_rgba(255,84,81,0.2)]">
+<span class="material-symbols-outlined text-tertiary mr-space-xs text-[20px]">search</span>
+<input class="w-full bg-transparent text-on-surface placeholder:text-tertiary-container text-body-sm font-body-sm focus:outline-none min-w-0" id="event-search-input" placeholder="Search by artist, venue, or Soroban tag..." type="text"/>
+<button aria-label="Clear Search" class="hidden text-tertiary hover:text-on-surface transition-colors p-1" id="clear-search-btn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<button aria-label="Scan On-Chain Pass" class="flex items-center justify-center w-11 h-11 rounded-xl bg-surface-container hover:bg-surface-container-high active:scale-95 text-primary-container shadow-md transition-all" id="qr-scan-trigger" title="Quick Scan Ticket Pass">
+<span class="material-symbols-outlined text-[22px]">qr_code_scanner</span>
+</button>
+</div>
+</section>
+<!-- Filter Chips Horizontal Scroller -->
+<section class="pt-space-md">
+<div class="flex gap-space-xs overflow-x-auto px-gutter-mobile scrollbar-none py-1" id="filter-chip-group" role="tablist">
+<button class="filter-chip active flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-primary-container text-on-primary-container shadow-[0_0_16px_-2px_rgba(255,84,81,0.45)] transition-all flex items-center gap-1.5" data-filter="all">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary-container"></span>
+        All
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="free">
+        Free
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="paid">
+        Paid (XLM/USDC)
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="weekend">
+        This Weekend
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="tech">
+        Tech & Web3
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="music">
+        Music & Arts
+      </button>
+<button class="filter-chip flex-shrink-0 px-space-md py-1.5 rounded-full font-label-mono text-label-mono bg-surface-container text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="hackathons">
+        VIP & Hackathons
+      </button>
+</div>
+</section>
+<!-- Hero Spotlight Section -->
+<section class="px-gutter-mobile pt-space-lg">
+<div class="flex items-baseline justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Spotlight</span>
+<span class="w-1 h-1 rounded-full bg-primary-container animate-pulse"></span>
+</div>
+<span class="font-label-mono text-label-mono text-tertiary">Verified On-Chain</span>
+</div>
+<div class="relative w-full rounded-xl bg-surface-container-low overflow-hidden shadow-2xl transition-transform active:scale-[0.99] group cursor-pointer">
+<!-- Media Aspect Holder -->
+<div class="relative w-full h-56 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Futuristic cyberpunk auditorium stage at a blockchain conference with glowing deep crimson laser accents, holographic Stellar logo floating, dark ambient silhouette audience, sleek modern architectural staging in deep charcoal and neon red luminescence, 8k render." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6AvG6MAFhr7EXK4J6eHpzWOKHK-KqmZcgX7NokuE8UTQYGtCCb_j8b_cGIMRb0nLIUo4bN1hxr-I1vBmzt0P8Vr3y0TpyoLGb6IdaTjEeY2mPXXp4olJ2t6zO5up5Tb4qSLRlkzlTiDAzdu3s7V8Xbo3bccRBI6THGmQzxBez7PbumHPfF9ruLtjRBrmca3nNJtoli4zISBpvV_ONddIyTeXiLBTNwUvQ3Zez1zZM4gfF87wojuSv"/>
+<!-- Cinematic gradient scrims -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest/80 via-transparent to-transparent"></div>
+<!-- Floating Badges Top Row -->
+<div class="absolute top-space-sm left-space-sm right-space-sm flex items-center justify-between pointer-events-none">
+<div class="flex items-center gap-1.5 bg-secondary-container/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-[0_0_16px_rgba(204,0,60,0.4)]">
+<span class="w-1.5 h-1.5 rounded-full bg-on-secondary-container animate-ping"></span>
+<span class="font-label-caps text-label-caps text-on-secondary-container tracking-wider">POPULAR</span>
+</div>
+<button aria-label="Bookmark Meridian Stellar Hackathon" class="bookmark-btn pointer-events-auto flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary hover:text-primary transition-colors shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+<!-- Venue Micro Pill -->
+<div class="absolute bottom-3 left-space-sm flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary-container text-[14px]">location_on</span>
+<span class="font-label-mono text-label-mono text-on-surface">Singapore • Marina Bay Sands</span>
+</div>
+</div>
+<!-- Hero Card Details -->
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-primary bg-primary-container/20 px-2 py-0.5 rounded">Oct 12-14, 2025</span>
+<span class="font-label-mono text-label-mono text-tertiary">3 Days</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider">94% Claimed</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-tight mt-1">
+          Meridian Stellar Hackathon & Summit 2025
+        </h2>
+<p class="font-body-sm text-body-sm text-tertiary line-clamp-2">
+          The flagship gathering of builders, node operators, and Soroban smart contract architects shaping decentralized liquidity globally.
+        </p>
+<!-- Capacity Bar & Proof Row -->
+<div class="mt-2 pt-space-xs flex flex-col gap-1.5">
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-secondary-container rounded-full" style="width: 94%;"></div>
+</div>
+<div class="flex items-center justify-between text-tertiary font-label-mono text-label-mono">
+<span>1,128 / 1,200 Attendees</span>
+<span class="text-on-surface">Pool: 250k XLM Bounty</span>
+</div>
+</div>
+<!-- Actions and Price Tag -->
+<div class="mt-space-sm pt-space-sm bg-surface-container rounded-xl p-space-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Access Pass</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">450 XLM</span>
+<span class="font-label-mono text-label-mono text-tertiary">/ Free Track</span>
+</div>
+</div>
+<button class="px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-body-md font-semibold shadow-[0_0_20px_-2px_rgba(255,84,81,0.5)] active:scale-95 transition-all flex items-center gap-1" type="button">
+<span>Claim</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Feeds & Grid Section -->
+<section class="px-gutter-mobile pt-space-xl pb-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Upcoming Experiences</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Cryptographically backed by Soroban state proofs</p>
+</div>
+<button class="font-label-caps text-label-caps text-primary hover:text-on-surface transition-colors flex items-center gap-0.5">
+        View All
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+<!-- Event Card 1 -->
+<article class="event-feed-card flex flex-col w-full bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform active:scale-[0.99] group cursor-pointer" data-category="music weekend paid">
+<div class="relative w-full h-44 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Exclusive midnight afterparty on a rooftop club in Singapore Marina Bay, deep scarlet ambient laser lights slicing through atmospheric mist, silhouette DJ performing, luxury high-tech VIP event setting in dark monochromatic tones with intense ruby accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx_i3H4XkedRxS4t3UKmMjiq8Ir7UhgCqxF9g-8ByZXz1WERh85Lk79422StBtI7cxt_Ox3Rzbk_hVQVMnoQOC4pb0-qC9HMc40Z3d3hEBzaJw1jemur83PZyh0I7SxpINdmbEqtz3F1r0FGwRTZNHpOIMv-nHpDNBh43cxrOXy8uoZLOzCO0sZuEZfT8R2sQd1RyJ_IVOEm2nblFR8xzSj-y33YjHM2eWYSCf6LcDXBQqZCGShDPg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<!-- Badges -->
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="font-label-mono text-label-mono bg-surface-container-lowest/90 backdrop-blur-md text-on-surface px-2.5 py-1 rounded-md">
+            Oct 13, 2025
+          </span>
+<span class="font-label-caps text-label-caps bg-primary-container/30 text-primary px-2 py-1 rounded-md backdrop-blur-md">
+            VIP ACCESS
+          </span>
+</div>
+<button aria-label="Bookmark Stellar Meridian Night Afterparty" class="bookmark-btn absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary hover:text-primary transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+<div class="absolute bottom-2 left-2.5 flex items-center gap-1 text-tertiary font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-primary-container text-[14px]">location_on</span>
+<span>Marina Bay, Singapore</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<h4 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug">
+          Stellar Meridian Night Afterparty
+        </h4>
+<p class="font-body-sm text-body-sm text-tertiary">
+          A high-fidelity bass experience with international headline DJs, open ledger bar, and NFT guest credentials.
+        </p>
+<!-- Capacity Metric -->
+<div class="mt-space-xs flex flex-col gap-1">
+<div class="flex justify-between items-center font-label-mono text-label-mono text-tertiary">
+<span>Capacity</span>
+<span class="text-on-surface font-medium">320 / 400 Registered</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Split Notch Divider Aesthetic -->
+<div class="relative w-full my-2 flex items-center justify-between">
+<div class="w-full h-px bg-surface-variant"></div>
+</div>
+<!-- Bottom Row: Price and Action -->
+<div class="flex items-center justify-between pt-0.5">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Ticket Price</span>
+<span class="font-headline-sm text-headline-sm text-primary-container">25 XLM</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-label-mono font-medium transition-colors flex items-center gap-1.5" type="button">
+<span>Get Pass</span>
+<span class="material-symbols-outlined text-[16px]">confirmation_number</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Event Card 2 -->
+<article class="event-feed-card flex flex-col w-full bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform active:scale-[0.99] group cursor-pointer" data-category="tech free">
+<div class="relative w-full h-44 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern high-tech coder laboratory room in New York City with developer workstations displaying glowing cryptographic syntax code on ultrawide glass monitors, dark room ambient with crimson edge accent lamps, minimalist architectural tech workshop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjRBRZLRcefetia273W4srtIJXJJKsyFdzjOrH7x--dhAnJxrz205L316NzrJBsuuXdG8B6BiYmjnLkUWaWZk1-x0WKPlAj5qufksXIK9ifyqYpdce68sVBlHJc8YONKwLmVwkjMPK-c0rZbxvQzsOBnOO9WwQ7-yHpF_YqQ7tafyzmFxfDkq4ScEKboCZbjDmdI9q0D8s10WeG7S8GXbsiryU0GAK4JQSZ7cguqbPdeGKUvnEC-6j"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<!-- Badges -->
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="font-label-mono text-label-mono bg-surface-container-lowest/90 backdrop-blur-md text-on-surface px-2.5 py-1 rounded-md">
+            Nov 02, 2025
+          </span>
+<span class="font-label-caps text-label-caps bg-surface-bright/80 text-on-surface px-2 py-1 rounded-md backdrop-blur-md">
+            HYBRID
+          </span>
+</div>
+<button aria-label="Bookmark Smart Contracts with Soroban Workshop" class="bookmark-btn absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary hover:text-primary transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+<div class="absolute bottom-2 left-2.5 flex items-center gap-1 text-tertiary font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-primary-container text-[14px]">cell_tower</span>
+<span>Virtual & NYC In-Person</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<h4 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug">
+          Smart Contracts with Soroban Workshop
+        </h4>
+<p class="font-body-sm text-body-sm text-tertiary">
+          Hands-on developer masterclass: build, deploy, and audit Rust-based Soroban contracts with live testnet mentorship.
+        </p>
+<!-- Capacity Metric -->
+<div class="mt-space-xs flex flex-col gap-1">
+<div class="flex justify-between items-center font-label-mono text-label-mono text-tertiary">
+<span>Capacity</span>
+<span class="text-on-surface font-medium">184 / 200 Registered</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-surface-tint rounded-full" style="width: 92%;"></div>
+</div>
+</div>
+<div class="relative w-full my-2 flex items-center justify-between">
+<div class="w-full h-px bg-surface-variant"></div>
+</div>
+<!-- Bottom Row: Price and Action -->
+<div class="flex items-center justify-between pt-0.5">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Admission</span>
+<span class="font-headline-sm text-headline-sm text-primary">Free</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-label-mono font-medium transition-colors flex items-center gap-1.5" type="button">
+<span>Register</span>
+<span class="material-symbols-outlined text-[16px]">assignment_turned_in</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Event Card 3 -->
+<article class="event-feed-card flex flex-col w-full bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform active:scale-[0.99] group cursor-pointer" data-category="music weekend paid">
+<div class="relative w-full h-44 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Berlin industrial warehouse rooftop party at night with stark concrete brutalist architecture, neon crimson light beams illuminating dancing crowds under starlit cloudy sky, cinematic atmosphere, moody dark techno aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkXb72YVs5DXpll9LZ-Npyk69jsrh3_YHgRE7bhw7mLCwX7gD7x-C09-G6H0xSC_eoMZedEEBP9AI6nUV4u3N3c0E4FOP3pr4P1pbKtvYhpyU2cW4VIy-U4OgniTiLoX2qBvpSsF11g_ts4mmG-JsI4f1n9uLrV7k_RAOyZmlAhNc3K8NDZgq4uAGqfIwDvs6m5S-swA4SG2HTX440mCLIw_6SGI_81yxI-bFyKfVTtQLjV7P-ps70"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<!-- Badges -->
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="font-label-mono text-label-mono bg-surface-container-lowest/90 backdrop-blur-md text-on-surface px-2.5 py-1 rounded-md">
+            Nov 18, 2025
+          </span>
+<span class="font-label-caps text-label-caps bg-error-container text-on-error-container px-2 py-1 rounded-md backdrop-blur-md flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+            ALMOST FULL
+          </span>
+</div>
+<button aria-label="Bookmark Decentralized Beats Rooftop Rave" class="bookmark-btn absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary hover:text-primary transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+<div class="absolute bottom-2 left-2.5 flex items-center gap-1 text-tertiary font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-primary-container text-[14px]">location_on</span>
+<span>Kreuzberg, Berlin</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug">
+            Decentralized Beats Rooftop Rave
+          </h4>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary">
+          A seamless intersection of sonic modular synths and zero-knowledge badge entry overlooking the Berlin canal.
+        </p>
+<!-- Capacity Metric with Urgent Accent -->
+<div class="mt-space-xs flex flex-col gap-1">
+<div class="flex justify-between items-center font-label-mono text-label-mono">
+<span class="text-error font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+              10 passes left
+            </span>
+<span class="text-on-surface font-medium">490 / 500 Registered</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 98%;"></div>
+</div>
+</div>
+<div class="relative w-full my-2 flex items-center justify-between">
+<div class="w-full h-px bg-surface-variant"></div>
+</div>
+<!-- Bottom Row: Price and Action -->
+<div class="flex items-center justify-between pt-0.5">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Direct XLM/USDC</span>
+<span class="font-headline-sm text-headline-sm text-primary-container">80 USDC</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-primary-container text-on-primary-container text-body-sm font-label-mono font-medium shadow-[0_0_16px_-4px_rgba(255,84,81,0.5)] transition-all flex items-center gap-1.5 active:scale-95" type="button">
+<span>Quick Pass</span>
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Delight Micro Modal / Drawer (Hidden by default, triggered by scan) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-gutter-mobile bg-surface-container-lowest/80 backdrop-blur-md" id="scanner-modal">
+<div class="w-full max-w-sm bg-surface-container-low rounded-xl p-space-lg shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+<!-- Specular Highlight Line -->
+<div class="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-primary-container via-surface-bright to-transparent"></div>
+<button class="absolute top-space-sm right-space-sm p-1.5 rounded-full text-tertiary hover:text-on-surface hover:bg-surface-container transition-all" id="scanner-close-btn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div class="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container mb-space-sm shadow-[0_0_24px_rgba(255,84,81,0.3)]">
+<span class="material-symbols-outlined text-[32px] animate-pulse">qr_code_scanner</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Ticket Validator</h4>
+<p class="font-body-sm text-body-sm text-tertiary mt-1 mb-space-md">
+        Point your device camera at a Stellar dynamic pass to verify entry credentials in under 2 seconds.
+      </p>
+<div class="w-full aspect-square bg-surface-container-lowest rounded-xl flex flex-col items-center justify-center relative overflow-hidden p-4">
+<!-- Laser line animation -->
+<div class="absolute inset-x-4 top-4 h-0.5 bg-primary-container shadow-[0_0_8px_#ff5451] animate-bounce"></div>
+<span class="material-symbols-outlined text-tertiary-container text-[72px]">center_focus_weak</span>
+<span class="font-label-mono text-label-mono text-tertiary mt-2">Awaiting QR stream...</span>
+</div>
+<button class="w-full mt-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-mono text-label-mono" id="scanner-dismiss-btn">
+        Cancel Scan
+      </button>
+</div>
+</div>
+<!-- Toast Notification System -->
+<div class="pointer-events-none fixed bottom-20 inset-x-0 flex justify-center px-4 z-50 opacity-0 transition-opacity duration-300" id="toast">
+<div class="bg-surface-container-high text-on-surface px-space-md py-2 rounded-full shadow-2xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span class="font-label-mono text-label-mono" id="toast-message">Saved to your wallet</span>
+</div>
+</div>
+</div>
+<script>
+  (function initDiscoveryExperience() {
+    // 1. Search Filter Handling
+    const searchInput = document.getElementById('event-search-input');
+    const clearBtn = document.getElementById('clear-search-btn');
+    const cards = document.querySelectorAll('.event-feed-card');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        clearBtn.classList.toggle('hidden', query.length === 0);
+
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (text.includes(query)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        cards.forEach(card => card.classList.remove('hidden'));
+        searchInput.focus();
+      });
+    }
+
+    // 2. Filter Chips Logic
+    const filterChips = document.querySelectorAll('.filter-chip');
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => {
+          c.classList.remove('active', 'bg-primary-container', 'text-on-primary-container', 'shadow-[0_0_16px_-2px_rgba(255,84,81,0.45)]');
+          c.classList.add('bg-surface-container', 'text-tertiary');
+          const dot = c.querySelector('span.w-1\\.5');
+          if (dot) dot.remove();
+        });
+
+        chip.classList.remove('bg-surface-container', 'text-tertiary');
+        chip.classList.add('active', 'bg-primary-container', 'text-on-primary-container', 'shadow-[0_0_16px_-2px_rgba(255,84,81,0.45)]');
+
+        const filterTag = chip.getAttribute('data-filter');
+        cards.forEach(card => {
+          if (filterTag === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            const categories = card.getAttribute('data-category') || '';
+            if (categories.includes(filterTag)) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          }
+        });
+      });
+    });
+
+    // 3. Bookmarking Interactive Feedback
+    const bookmarks = document.querySelectorAll('.bookmark-btn');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    let toastTimer = null;
+
+    function showToast(text) {
+      if (toastMsg && toast) {
+        toastMsg.textContent = text;
+        toast.classList.remove('opacity-0');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.add('opacity-0');
+        }, 2200);
+      }
+    }
+
+    bookmarks.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const icon = btn.querySelector('.material-symbols-outlined');
+        const isSaved = icon.textContent === 'bookmark';
+
+        if (isSaved) {
+          icon.textContent = 'bookmark_border';
+          icon.style.fontVariationSettings = "'FILL' 0";
+          btn.classList.remove('text-primary');
+          btn.classList.add('text-tertiary');
+          showToast('Removed from saved events');
+        } else {
+          icon.textContent = 'bookmark';
+          icon.style.fontVariationSettings = "'FILL' 1";
+          btn.classList.remove('text-tertiary');
+          btn.classList.add('text-primary');
+          showToast('Verified & saved to wallet pass list');
+        }
+      });
+    });
+
+    // 4. QR Scanner Modal Micro-interaction
+    const scannerTrigger = document.getElementById('qr-scan-trigger');
+    const scannerModal = document.getElementById('scanner-modal');
+    const scannerClose = document.getElementById('scanner-close-btn');
+    const scannerDismiss = document.getElementById('scanner-dismiss-btn');
+
+    function toggleScanner(show) {
+      if (!scannerModal) return;
+      if (show) {
+        scannerModal.classList.remove('hidden');
+      } else {
+        scannerModal.classList.add('hidden');
+      }
+    }
+
+    if (scannerTrigger) scannerTrigger.addEventListener('click', () => toggleScanner(true));
+    if (scannerClose) scannerClose.addEventListener('click', () => toggleScanner(false));
+    if (scannerDismiss) scannerDismiss.addEventListener('click', () => toggleScanner(false));
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex items-center justify-around h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs transition-colors text-primary font-bold" data-path="discover" href="#"><span class="material-symbols-outlined text-[22px]">explore</span><span class="font-label-caps text-label-caps">Discover</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[22px]">confirmation_number</span><span class="font-label-caps text-label-caps">Tickets</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] -mt-4" data-path="create" href="#"><div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] hover:bg-secondary-container transition-all"><span class="material-symbols-outlined text-[26px]">add</span></div><span class="font-label-caps text-label-caps text-tertiary mt-1">Create</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="organizer" href="#"><span class="material-symbols-outlined text-[22px]">insights</span><span class="font-label-caps text-label-caps">Manage</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] gap-space-xs text-tertiary hover:text-on-surface transition-colors" data-path="gallery-activity" href="#"><span class="material-symbols-outlined text-[22px]">photo_library</span><span class="font-label-caps text-label-caps">Gallery</span></a></div></nav></body></html>
