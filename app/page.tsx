@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Card } from "@/components/Card";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
@@ -8,7 +8,7 @@ import { Navbar } from "@/components/Navbar";
 type EventItem = {
   title: string;
   date: string;
-  category: string;
+  tags: string[];
   price: string;
   badge?: string;
   badgeClassName?: string;
@@ -16,26 +16,37 @@ type EventItem = {
   description: string;
   image: string;
   capacity: string;
-  progress: number;
+  progressWidthClassName: string;
   accentClassName?: string;
   priceLabel: string;
   actionLabel: string;
-  tag: string;
 };
 
-const filters = [
+type EventFilter = {
+  label: string;
+  value: string;
+  tags?: string[];
+};
+
+const filters: EventFilter[] = [
   { label: "All", value: "all" },
-  { label: "Music", value: "music" },
-  { label: "Tech", value: "tech" },
-  { label: "Weekend", value: "weekend" },
-  { label: "Free", value: "free" },
+  { label: "Free", value: "free", tags: ["free"] },
+  { label: "Paid (XLM/USDC)", value: "paid", tags: ["paid"] },
+  { label: "This Weekend", value: "weekend", tags: ["weekend"] },
+  { label: "Tech & Web3", value: "tech", tags: ["tech"] },
+  { label: "Music & Arts", value: "music", tags: ["music"] },
+  {
+    label: "VIP & Hackathons",
+    value: "vip",
+    tags: ["vip", "hackathons"],
+  },
 ];
 
 const events: EventItem[] = [
   {
     title: "Stellar Meridian Night Afterparty",
     date: "Oct 13, 2025",
-    category: "music weekend paid",
+    tags: ["music", "weekend", "paid", "vip"],
     price: "25 XLM",
     badge: "VIP ACCESS",
     badgeClassName: "bg-[#ff5451]/25 text-[#ffb3ad]",
@@ -45,16 +56,15 @@ const events: EventItem[] = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAx_i3H4XkedRxS4t3UKmMjiq8Ir7UhgCqxF9g-8ByZXz1WERh85Lk79422StBtI7cxt_Ox3Rzbk_hVQVMnoQOC4pb0-qC9HMc40Z3d3hEBzaJw1jemur83PZyh0I7SxpINdmbEqtz3F1r0FGwRTZNHpOIMv-nHpDNBh43cxrOXy8uoZLOzCO0sZuEZfT8R2sQd1RyJ_IVOEm2nblFR8xzSj-y33YjHM2eWYSCf6LcDXBQqZCGShDPg",
     capacity: "320 / 400 Registered",
-    progress: 80,
+    progressWidthClassName: "w-[80%]",
     accentClassName: "from-[#ff5451] to-[#ff8a80]",
     priceLabel: "Ticket Price",
     actionLabel: "Get Pass",
-    tag: "paid",
   },
   {
     title: "Smart Contracts with Soroban Workshop",
     date: "Nov 02, 2025",
-    category: "tech free",
+    tags: ["tech", "free"],
     price: "Free",
     badge: "Hybrid",
     badgeClassName: "bg-white/10 text-[#e5e2e1]",
@@ -64,16 +74,15 @@ const events: EventItem[] = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAjRBRZLRcefetia273W4srtIJXJJKsyFdzjOrH7x--dhAnJxrz205L316NzrJBsuuXdG8B6BiYmjnLkUWaWZk1-x0WKPlAj5qufksXIK9ifyqYpdce68sVBlHJc8YONKwLmVwkjMPK-c0rZbxvQzsOBnOO9WwQ7-yHpF_YqQ7tafyzmFxfDkq4ScEKboCZbjDmdI9q0D8s10WeG7S8GXbsiryU0GAK4JQSZ7cguqbPdeGKUvnEC-6j",
     capacity: "184 / 200 Registered",
-    progress: 92,
+    progressWidthClassName: "w-[92%]",
     accentClassName: "from-[#ffb3ad] to-[#ffb3b6]",
     priceLabel: "Admission",
     actionLabel: "Register",
-    tag: "free",
   },
   {
     title: "Decentralized Beats Rooftop Rave",
     date: "Nov 18, 2025",
-    category: "music weekend paid",
+    tags: ["music", "weekend", "paid"],
     price: "80 USDC",
     badge: "ALMOST FULL",
     badgeClassName: "bg-[#ffb4ab] text-[#690005]",
@@ -83,11 +92,10 @@ const events: EventItem[] = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCkXb72YVs5DXpll9LZ-Npyk69jsrh3_YHgRE7bhw7mLCwX7gD7x-C09-G6H0xSC_eoMZedEEBP9AI6nUV4u3N3c0E4FOP3pr4P1pbKtvYhpyU2cW4VIy-U4OgniTiLoX2qBvpSsF11g_ts4mmG-JsI4f1n9uLrV7k_RAOyZmlAhNc3K8NDZgq4uAGqfIwDvs6m5S-swA4SG2HTX440mCLIw_6SGI_81yxI-bFyKfVTtQLjV7P-ps70",
     capacity: "490 / 500 Registered",
-    progress: 98,
+    progressWidthClassName: "w-[98%]",
     accentClassName: "from-[#ffb3b6] to-[#ff5451]",
     priceLabel: "Direct XLM/USDC",
     actionLabel: "Quick Pass",
-    tag: "paid",
   },
 ];
 
@@ -131,31 +139,49 @@ function ChevronIcon() {
 export default function Home() {
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const filteredEvents = useMemo(() => {
     const normalizedQuery = search.trim().toLowerCase();
+    const selectedFilter = filters.find(
+      (filter) => filter.value === activeFilter,
+    );
+    const selectedTags = selectedFilter?.tags ?? [];
 
     return events.filter((event) => {
       const matchesFilter =
         activeFilter === "all" ||
-        event.category.toLowerCase().includes(activeFilter.toLowerCase()) ||
-        event.tag.toLowerCase() === activeFilter.toLowerCase();
+        selectedTags.some((tag) => event.tags.includes(tag));
 
-      if (!normalizedQuery) return matchesFilter;
+      if (!matchesFilter) return false;
+      if (!normalizedQuery) return true;
 
       const haystack = [
         event.title,
+        event.date,
         event.description,
         event.location,
-        event.category,
-        event.tag,
+        event.price,
+        event.badge ?? "",
+        event.capacity,
+        ...event.tags,
       ]
         .join(" ")
         .toLowerCase();
 
-      return matchesFilter && haystack.includes(normalizedQuery);
+      return haystack.includes(normalizedQuery);
     });
   }, [activeFilter, search]);
+
+  function clearSearch() {
+    setSearch("");
+    searchInputRef.current?.focus();
+  }
+
+  function resetDiscovery() {
+    setSearch("");
+    setActiveFilter("all");
+  }
 
   return (
     <div className="min-h-screen bg-[#131313] text-[#e5e2e1]">
@@ -168,9 +194,13 @@ export default function Home() {
               <div className="flex items-center gap-2 px-4 py-3 text-[#a7a0a0]">
                 <SearchIcon />
                 <input
+                  ref={searchInputRef}
+                  type="search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   aria-label="Search events"
+                  aria-controls="event-results"
+                  enterKeyHint="search"
                   placeholder="Search by artist, venue, or Soroban tag..."
                   className="min-w-0 flex-1 bg-transparent text-sm text-[#e5e2e1] placeholder:text-[#8f8a89] outline-none"
                 />
@@ -178,7 +208,7 @@ export default function Home() {
                   <button
                     type="button"
                     aria-label="Clear search"
-                    onClick={() => setSearch("")}
+                    onClick={clearSearch}
                     className="rounded-full p-1 text-[#a7a0a0] transition hover:text-[#e5e2e1]"
                   >
                     ×
@@ -206,6 +236,8 @@ export default function Home() {
                 <button
                   key={filter.value}
                   type="button"
+                  aria-pressed={active}
+                  aria-controls="event-results"
                   onClick={() => setActiveFilter(filter.value)}
                   className={[
                     "inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-[0.12em] transition",
@@ -214,12 +246,9 @@ export default function Home() {
                       : "bg-[#242424] text-[#a7a0a0] hover:bg-[#2c2c2c]",
                   ].join(" ")}
                 >
-                  <span
-                    className={[
-                      "h-1.5 w-1.5 rounded-full",
-                      active ? "bg-[#ffb3ad]" : "bg-[#7d7675]",
-                    ].join(" ")}
-                  />
+                  {active ? (
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#ffb3ad]" />
+                  ) : null}
                   {filter.label}
                 </button>
               );
@@ -227,7 +256,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pt-4">
+        <section id="event-results" className="pt-4">
+          <p className="sr-only" aria-live="polite">
+            {filteredEvents.length} events match the current search and filters.
+          </p>
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight text-[#f3f0ee] sm:text-3xl">
@@ -240,6 +272,7 @@ export default function Home() {
 
             <button
               type="button"
+              onClick={resetDiscovery}
               className="inline-flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.12em] text-[#ffb3ad] transition hover:text-[#ffd6d1]"
             >
               View All
@@ -249,7 +282,7 @@ export default function Home() {
 
           {filteredEvents.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-white/10 bg-[#1b1b1b] p-10 text-center text-[#a7a0a0]">
-              No events match your search.
+              No events match your search and filters.
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -303,8 +336,8 @@ export default function Home() {
                           className={[
                             "h-full rounded-full bg-gradient-to-r",
                             event.accentClassName,
+                            event.progressWidthClassName,
                           ].join(" ")}
-                          style={{ width: `${event.progress}%` }}
                         />
                       </div>
                     </div>

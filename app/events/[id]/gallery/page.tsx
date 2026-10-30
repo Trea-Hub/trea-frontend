@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -80,9 +81,12 @@ export default function EventGalleryPage() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#131313]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <img
+            <Image
               src="https://lh3.googleusercontent.com/aida/AEtjO1Ww40inGHjn46emaG6LBQY79iEHtmTgVhg8v6vqY3WwChhc1qPp14wKDGsNMV36DVrsONIOD119spGawqKWRz6G9ezqfkZG9Na8fLhJHqaSuiuFSzehriQ9wfKuc5IdOV51Mp0ySF0_DLf44uYaZhOiHI1wss09H5bmiTM2-_JuRFmEVeA8jEzQiwh8o5Jde_vxkZ_jg8IK7UjiwA612NzvF_fX6VTEXUqhAXocRyRj6AluZQHM18yF0jw"
               alt="Trea Logo"
+              width={32}
+              height={32}
+              unoptimized
               className="h-8 w-auto object-contain"
             />
             <span className="text-xl font-semibold tracking-tight text-[#f3f0ee]">Trea</span>
@@ -96,10 +100,12 @@ export default function EventGalleryPage() {
           </div>
 
           <div className="relative h-8 w-8 overflow-hidden rounded-full ring-1 ring-white/10">
-            <img
+            <Image
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuXodJxvy-va-78PTdiU8ZhKQdHyJwQNqNFdepsOWnUrq659A3aTmf7VBKewRz1Tv6NauE_5vI8gnVfo7SP3O_hkMHlTTrXnfSBuJcS6CoLuhoLo3043VL5ngYQ92abrNW0b_0lKFuIRAJmI3WdBX3fm3vNsEpfMcQmm0A8-1iaJZ9MG-_siQsr6lnhHu3QoLo8urCkVnNInmNoEj4cEtpxrHwmgrhw4RZrejct814COaDYLwlHix"
               alt="Profile"
-              className="h-full w-full object-cover"
+              fill
+              sizes="32px"
+              className="object-cover"
             />
           </div>
         </div>
@@ -204,11 +210,13 @@ export default function EventGalleryPage() {
                     index === 0 ? "sm:col-span-2" : "",
                   ].join(" ")}
                 >
-                  <div className={index === 0 ? "h-60 sm:h-72" : "h-44 sm:h-52"}>
-                    <img
+                  <div className={`relative ${index === 0 ? "h-60 sm:h-72" : "h-44 sm:h-52"}`}>
+                    <Image
                       src={photo.image}
                       alt={photo.title}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      fill
+                      sizes={index === 0 ? "(max-width: 640px) 100vw, 768px" : "(max-width: 640px) 50vw, 384px"}
+                      className="object-cover transition duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/90 via-transparent to-transparent" />
                   </div>
@@ -274,8 +282,14 @@ export default function EventGalleryPage() {
               </button>
             </div>
 
-            <div className="relative">
-              <img src={selectedPhoto.image} alt={selectedPhoto.title} className="h-72 w-full object-cover sm:h-80" />
+            <div className="relative h-72 sm:h-80">
+              <Image
+                src={selectedPhoto.image}
+                alt={selectedPhoto.title}
+                fill
+                sizes="(max-width: 640px) 100vw, 896px"
+                className="object-cover"
+              />
               <div className="absolute bottom-3 left-3 rounded-full bg-[#111111]/80 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-[#d7d2cf]">
                 IPFS: {selectedPhoto.ipfs}
               </div>

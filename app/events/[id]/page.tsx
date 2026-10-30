@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EventTabs, type EventDetail } from "@/components/EventTabs";
 
-const eventCatalog = {
+const eventCatalog: Record<string, EventDetail> = {
   "meridian-2025": {
     id: "meridian-2025",
     title: "Meridian 2025",
@@ -18,6 +20,7 @@ const eventCatalog = {
     badge: "Free Tier Live",
     seats: "785 / 1,000",
     filled: 78.5,
+    filledWidthClassName: "w-[78.5%]",
     description:
       "Meridian 2025 converges over 1,000 decentralized architects, DeFi engineers, and institutional leaders in Singapore. Over three intensive days, immerse yourself in hands-on Soroban smart contract workshops, high-throughput financial protocol rollouts, and verifiable zero-knowledge identity demonstrations.",
     secondaryDescription:
@@ -44,6 +47,28 @@ const eventCatalog = {
       { time: "14:00", title: "Institutional Roundtable", detail: "Asset rails and compliance design" },
     ],
     galleryCount: 24,
+    galleryPreview: [
+      {
+        image:
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuCGtvHYPVDz9WanUeYpLmXfLBIRMMz7467Oswe53z9Dr2o-uqZmizmiMH8QH8ZZfWCQYfwtC1sNEGwppU1Z9gQefKfa-YTRCq4C6omnRKML3geOrHsQ1SF0eHOSF6kx0JXbgWRbUZPXeTp0qRvRaJGDl3LRzz58HpkLyDJ5DgX6c_wXju7oYwloo6Rf-sDqJR7-MLxO3QpeZtxsdUEVQeSUUMV9SpypFVN9a9cwrxipJhZ6n1IEBi8W",
+        alt: "Massive illuminated auditorium stage with digital screens displaying Stellar code and vivid red backdrop graphics during an international tech keynote",
+      },
+      {
+        image:
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuB6gmu9e3tHskMfl8NhIBQ9oHhpixuBJbv9kBm5IipOpBLhLrFi6YtUK-DLaAw4FQTfMr1vdg8grreM192CFmubng1797MwjYdX134MfVCZ7M2ZRSEJP5oUFFlW6pwfVwyauWtrE_pjtxt68_IuHXPqPtlG7PGUh1LFyvKSU2udUe8G84710fkDeOrjFrdIh3hDVuIdTapMwwdK3_Ljdclz4cwYVuq_tlz3s0p00GpQFCnLyFJnCgH",
+        alt: "Vibrant tech hackathon table with diverse young developers coding on laptops surrounded by holographic glowing displays and dark architectural lighting",
+      },
+      {
+        image:
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuBdPoiOr1d8TxVYK3u-vuDuHOh3oh0ZgxJlPA0HNwXDTmXr4B-vnYd1q9G5ncTatP2ZZ40RdhIMNCh4iQ1OFaT6sDpnK-lklPjzGMD0qsvLD0mwwgDdaaSsk6FYUAEOdiFF9LoeDkPNZotFCI48H1NWi5BtwVzNDzvLJNZLwStiimJDzINHjA-24OY5BwIZ2KFsReea-xinZ8ZoPFZ1DpyRL0an03arpH3QtEbNMZ3yMVvD0h5P9xt5",
+        alt: "Evening rooftop party overlooking Singapore Marina Bay Sands skyline with crypto summit guests holding glowing crimson badge passes",
+      },
+      {
+        image:
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuATC13VLuDxnfHXINfYeYIAWjrzmlWASr_pdvg7Il1Mulqsayn2UG9Bir5wjbQC99YKa3EYmjrwe2-91l7RX-lb2C2IwJTABoiOa5EDgBqb2YG01qXhEdEGcdzOY3ZIwykqXqlFNS3fsa8eQFIFMOeGexAae36Lftfqn0ldIb1t97QeY7jziJYTyQPkoPHBcGfqBlqN_OT7SYKVfEfMCOBuAMtwYZYYTjsRCvNn-QvTXYHl5W9-ecEm",
+        alt: "Close up of a physical VIP metallic on-chain NFC badge glowing softly with engraved Stellar network symbols",
+      },
+    ],
   },
 };
 
@@ -94,9 +119,12 @@ export default async function EventPage({
             >
               <span className="text-xl">←</span>
             </Link>
-            <img
+            <Image
               src="https://lh3.googleusercontent.com/aida/AEtjO1Ww40inGHjn46emaG6LBQY79iEHtmTgVhg8v6vqY3WwChhc1qPp14wKDGsNMV36DVrsONIOD119spGawqKWRz6G9ezqfkZG9Na8fLhJHqaSuiuFSzehriQ9wfKuc5IdOV51Mp0ySF0_DLf44uYaZhOiHI1wss09H5bmiTM2-_JuRFmEVeA8jEzQiwh8o5Jde_vxkZ_jg8IK7UjiwA612NzvF_fX6VTEXUqhAXocRyRj6AluZQHM18yF0jw"
               alt="Trea Logo"
+              width={28}
+              height={28}
+              unoptimized
               className="h-7 w-auto object-contain"
             />
           </div>
@@ -105,11 +133,13 @@ export default async function EventPage({
             Event Detail
           </h1>
 
-          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
-            <img
+          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+            <Image
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuXodJxvy-va-78PTdiU8ZhKQdHyJwQNqNFdepsOWnUrq659A3aTmf7VBKewRz1Tv6NauE_5vI8gnVfo7SP3O_hkMHlTTrXnfSBuJcS6CoLuhoLo3043VL5ngYQ92abrNW0b_0lKFuIRAJmI3WdBX3fm3vNsEpfMcQmm0A8-1iaJZ9MG-_siQsr6lnhHu3QoLo8urCkVnNInmNoEj4cEtpxrHwmgrhw4RZrejct814COaDYLwlHix"
               alt="Profile"
-              className="h-full w-full object-cover"
+              fill
+              sizes="36px"
+              className="object-cover"
             />
           </div>
         </div>
@@ -118,10 +148,12 @@ export default async function EventPage({
       <main className="mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 lg:px-8">
         <section className="overflow-hidden rounded-[28px] border border-white/10 bg-[#1b1b1b] shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
           <div className="relative h-[280px] sm:h-[350px] md:h-[420px]">
-            <img
+            <Image
               src={event.coverImage}
               alt={event.title}
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 1152px"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/40 to-transparent" />
             <div className="absolute inset-x-4 top-4 flex items-center justify-between">
@@ -223,8 +255,10 @@ export default async function EventPage({
 
                 <div className="h-2.5 overflow-hidden rounded-full bg-[#2f2f2f]">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#ff5451] to-[#ffb3ad]"
-                    style={{ width: `${event.filled}%` }}
+                    className={[
+                      "h-full rounded-full bg-gradient-to-r from-[#ff5451] to-[#ffb3ad]",
+                      event.filledWidthClassName,
+                    ].join(" ")}
                   />
                 </div>
 
@@ -253,93 +287,7 @@ export default async function EventPage({
         </section>
 
         <section className="mt-6 rounded-[24px] border border-white/10 bg-[#1b1b1b] p-4 sm:p-5 lg:p-6">
-          <div className="grid gap-1 rounded-xl bg-[#111111] p-1 sm:grid-cols-3">
-            <button
-              type="button"
-              className="rounded-lg bg-[#2a2a2a] px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.15em] text-[#f3f0ee]"
-            >
-              Overview
-            </button>
-            <Link
-              href={galleryHref}
-              className="rounded-lg px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.15em] text-[#a7a0a0] transition hover:bg-[#1f1f1f] hover:text-[#f3f0ee]"
-            >
-              Gallery ({event.galleryCount})
-            </Link>
-            <Link
-              href={checkoutHref}
-              className="rounded-lg px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.15em] text-[#a7a0a0] transition hover:bg-[#1f1f1f] hover:text-[#f3f0ee]"
-            >
-              Perks & Map
-            </Link>
-          </div>
-
-          <div className="mt-6 space-y-6">
-            <div className="rounded-2xl border border-white/10 bg-[#1f1f1f] p-4">
-              <h3 className="mb-3 text-xl font-semibold tracking-tight text-[#f3f0ee]">
-                About the Summit
-              </h3>
-              <p className="space-y-3 text-base leading-7 text-[#d7d2cf]">
-                {event.description}
-              </p>
-              <p className="mt-4 text-base leading-7 text-[#d7d2cf]">
-                {event.secondaryDescription}
-              </p>
-            </div>
-
-            <div>
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#a7a0a0]">
-                  Keynote Speakers
-                </h3>
-                <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#ffb3ad]">
-                  View All (18)
-                </span>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {event.speakers.map((speaker) => (
-                  <div key={speaker.name} className="rounded-2xl border border-white/10 bg-[#1f1f1f] p-3 text-center">
-                    <img
-                      src={speaker.image}
-                      alt={speaker.name}
-                      className="mx-auto h-16 w-16 rounded-full object-cover ring-2 ring-[#2a2a2a]"
-                    />
-                    <div className="mt-3">
-                      <p className="text-base font-semibold text-[#f3f0ee]">{speaker.name}</p>
-                      <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-[#ffb3ad]">
-                        {speaker.role}
-                      </p>
-                      <p className="mt-1 text-sm text-[#a7a0a0]">{speaker.company}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em] text-[#a7a0a0]">
-                Curated Track Agenda
-              </h3>
-
-              <div className="space-y-3">
-                {event.agenda.map((item) => (
-                  <div
-                    key={`${item.time}-${item.title}`}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#1f1f1f] p-3"
-                  >
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#2a2a2a] text-sm font-medium text-[#ffb3ad]">
-                      {item.time}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-base font-medium text-[#f3f0ee]">{item.title}</p>
-                      <p className="text-sm text-[#a7a0a0]">{item.detail}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <EventTabs event={event} galleryHref={galleryHref} />
         </section>
       </main>
     </main>

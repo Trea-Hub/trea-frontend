@@ -1,8 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
+import {
+  canSubmitCheckout,
+  checkoutReducer,
+  createCheckoutFailure,
+  getCheckoutView,
+  initialCheckoutState,
+  isCheckoutBusy,
+  type CheckoutFailureCode,
+  type CheckoutTone,
+} from "@/lib/checkout/machine";
 
 const eventCatalog = {
   "meridian-2025": {
@@ -21,7 +32,56 @@ const eventCatalog = {
 };
 
 type PaymentToken = "XLM" | "USDC";
-type TransactionState = "idle" | "pending" | "confirmed";
+
+const buttonToneClasses: Record<CheckoutTone, string> = {
+  idle: "bg-[#ff5451] text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
+  pending: "bg-[#ff5451]/80 text-[#fff] opacity-80 transition-all",
+  confirmed:
+    "bg-[#ffb3ad] text-[#410004] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all",
+  failed:
+    "bg-[#ff5451] text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
+};
+
+const pipelineToneClasses: Record<CheckoutTone, string> = {
+  idle: "text-[#ffb3ad]",
+  pending: "text-[#ffb3ad]",
+  confirmed: "text-[#ffb3ad]",
+  failed: "text-[#ffb4ab]",
+};
+
+const statusBadgeToneClasses: Record<CheckoutTone, string> = {
+  idle: "bg-[#ff5451]/10 text-[#ffb3ad]",
+  pending: "bg-[#ff5451]/10 text-[#ffb3ad]",
+  confirmed: "bg-[#ffb3ad]/15 text-[#ffb3ad]",
+  failed: "bg-[#93000a]/25 text-[#ffb4ab]",
+};
+
+const pipelineDotToneClasses: Record<CheckoutTone, string> = {
+  idle: "bg-[#ff5451] animate-ping",
+  pending: "bg-[#ff5451] animate-ping",
+  confirmed: "bg-[#ffb3ad]",
+  failed: "bg-[#ffb4ab]",
+};
+
+function getSimulatedFailureCode(): CheckoutFailureCode | null {
+  if (typeof window === "undefined") return null;
+
+  const result = new URLSearchParams(window.location.search).get("result");
+  switch (result) {
+    case "rejected":
+      return "wallet_rejected";
+    case "network":
+      return "wrong_network";
+    case "balance":
+      return "insufficient_balance";
+    case "rpc":
+      return "rpc_error";
+    case "failed":
+      return "unknown";
+    default:
+      return null;
+  }
+}
 
 export default function CheckoutPage() {
   const params = useParams<{ id?: string }>();
@@ -31,10 +91,16 @@ export default function CheckoutPage() {
     eventCatalog["meridian-2025"];
 
   const [token, setToken] = useState<PaymentToken>("XLM");
-  const [transactionState, setTransactionState] = useState<TransactionState>("idle");
+  const [checkoutState, dispatch] = useReducer(
+    checkoutReducer,
+    initialCheckoutState,
+  );
   const timeoutRef = useRef<number | null>(null);
+  const redirectRef = useRef<number | null>(null);
 
-  const totalValue = token === "XLM" ? 120 : 45.6;
+  const view = getCheckoutView(checkoutState);
+  const busy = isCheckoutBusy(checkoutState);
+
   const totalLabel = token === "XLM" ? "120.00" : "45.60";
   const tokenUnit = token === "XLM" ? "XLM" : "USDC";
   const feeLabel = token === "XLM" ? "~0.00001 XLM" : "~0.00001 USDC";
@@ -46,45 +112,42 @@ export default function CheckoutPage() {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
       }
+      if (redirectRef.current) {
+        window.clearTimeout(redirectRef.current);
+      }
     };
   }, []);
 
   const handleConfirm = () => {
-    if (transactionState === "pending" || transactionState === "confirmed") return;
+    if (!canSubmitCheckout(checkoutState)) return;
 
-    setTransactionState("pending");
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
     }
+    if (redirectRef.current) {
+      window.clearTimeout(redirectRef.current);
+    }
+
+    dispatch({ type: "SUBMIT" });
+
+    const failureCode = getSimulatedFailureCode();
 
     timeoutRef.current = window.setTimeout(() => {
-      setTransactionState("confirmed");
-      window.setTimeout(() => {
-        router.push(`/events/${event.id}/confirmation`);
-      }, 500);
-    }, 2200);
+      if (failureCode) {
+        dispatch({ type: "FAILED", error: createCheckoutFailure(failureCode) });
+        return;
+      }
+
+      dispatch({ type: "SIGNATURE_APPROVED" });
+
+      timeoutRef.current = window.setTimeout(() => {
+        dispatch({ type: "CONFIRMED" });
+        redirectRef.current = window.setTimeout(() => {
+          router.push(`/events/${event.id}/confirmation`);
+        }, 500);
+      }, 1400);
+    }, 1200);
   };
-
-  const statusLabel =
-    transactionState === "idle"
-      ? "Ready to Sign"
-      : transactionState === "pending"
-        ? "Verifying Proof"
-        : "Confirmed";
-
-  const buttonLabel =
-    transactionState === "idle"
-      ? "Confirm & Sign Transaction"
-      : transactionState === "pending"
-        ? "Verifying Soroban Proof..."
-        : "Confirmed! Ticket Minted";
-
-  const secondaryStatus =
-    transactionState === "idle"
-      ? "Atomic"
-      : transactionState === "pending"
-        ? "Securing"
-        : "Finalized";
 
   return (
     <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
@@ -163,9 +226,11 @@ export default function CheckoutPage() {
                     </h2>
                     <p className="mt-2 text-sm text-[#d7d2cf]">{event.summary}</p>
                   </div>
-                  <img
+                  <Image
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD3PyOSBsu7GFwail5tFeV3vfXECmRLu1awHhUazLF-OouIE23gjNg3QXw-ValRo3RotD1X55a-iBoavdYZsu0I5kG3T3xLd9bP3kWVqimymnUe9N_h3Y9AdDXP_Yrg0qsPXyzIwi2Ex6riYUGLJQ62lJHOIrbf8OLSbMxd-XTXCEQUeE547s41yViTSfiWkJCFhNplWw5OFp53sTbJyDW75RlpVoec0FDTV0Vt4Gup8vhvpEb4l9c"
                     alt={event.title}
+                    width={80}
+                    height={80}
                     className="h-20 w-20 rounded-2xl object-cover"
                   />
                 </div>
@@ -211,10 +276,11 @@ export default function CheckoutPage() {
                   <button
                     type="button"
                     onClick={() => setToken("XLM")}
+                    disabled={busy}
                     className={
                       token === "XLM"
-                        ? "flex items-center justify-between rounded-lg bg-[#2a2a2a] p-3 text-left text-[#f3f0ee] shadow-sm"
-                        : "flex items-center justify-between rounded-lg bg-[#0f0f0f] p-3 text-left text-[#a7a0a0]"
+                        ? "flex items-center justify-between rounded-lg bg-[#2a2a2a] p-3 text-left text-[#f3f0ee] shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
+                        : "flex items-center justify-between rounded-lg bg-[#0f0f0f] p-3 text-left text-[#a7a0a0] disabled:cursor-not-allowed disabled:opacity-60"
                     }
                     aria-pressed={token === "XLM"}
                   >
@@ -241,10 +307,11 @@ export default function CheckoutPage() {
                   <button
                     type="button"
                     onClick={() => setToken("USDC")}
+                    disabled={busy}
                     className={
                       token === "USDC"
-                        ? "flex items-center justify-between rounded-lg bg-[#2a2a2a] p-3 text-left text-[#f3f0ee] shadow-sm"
-                        : "flex items-center justify-between rounded-lg bg-[#0f0f0f] p-3 text-left text-[#a7a0a0]"
+                        ? "flex items-center justify-between rounded-lg bg-[#2a2a2a] p-3 text-left text-[#f3f0ee] shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
+                        : "flex items-center justify-between rounded-lg bg-[#0f0f0f] p-3 text-left text-[#a7a0a0] disabled:cursor-not-allowed disabled:opacity-60"
                     }
                     aria-pressed={token === "USDC"}
                   >
@@ -321,13 +388,23 @@ export default function CheckoutPage() {
                 <div className="mt-5 rounded-xl border border-white/10 bg-[#181818] p-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 animate-ping rounded-full bg-[#ff5451]" />
+                      <span
+                        className={[
+                          "h-2 w-2 rounded-full",
+                          pipelineDotToneClasses[view.tone],
+                        ].join(" ")}
+                      />
                       <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#f3f0ee]">
                         Contract Execution Pipeline
                       </span>
                     </div>
-                    <span className="rounded bg-[#ff5451]/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#ffb3ad]">
-                      {statusLabel}
+                    <span
+                      className={[
+                        "rounded px-2 py-1 text-[10px] font-medium uppercase tracking-[0.14em]",
+                        statusBadgeToneClasses[view.tone],
+                      ].join(" ")}
+                    >
+                      {view.statusLabel}
                     </span>
                   </div>
 
@@ -343,12 +420,45 @@ export default function CheckoutPage() {
                         <p className="text-[10px] text-[#a7a0a0]">Function: mint_ticket_auth()</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-[#ffb3ad]">
-                      <span className="material-symbols-outlined text-[15px]">lock_clock</span>
-                      <span className="text-[10px] uppercase tracking-[0.14em]">{secondaryStatus}</span>
+                    <div
+                      className={[
+                        "flex items-center gap-1",
+                        pipelineToneClasses[view.tone],
+                      ].join(" ")}
+                    >
+                      <span className="material-symbols-outlined text-[15px]">
+                        {view.pipelineIcon}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-[0.14em]">
+                        {view.secondaryStatus}
+                      </span>
                     </div>
                   </div>
                 </div>
+
+                {view.showError && checkoutState.status === "failed" ? (
+                  <div
+                    role="alert"
+                    className="mt-5 flex items-start gap-3 rounded-xl border border-[#93000a] bg-[#93000a]/15 p-3"
+                  >
+                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#93000a]/40 text-[#ffb4ab]">
+                      <span className="material-symbols-outlined text-[18px]">
+                        error
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#ffb4ab]">
+                        Transaction Failed
+                      </p>
+                      <p className="mt-1 text-sm leading-snug text-[#ffdad6]">
+                        {checkoutState.error.message}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-snug text-[#ffb4ab]">
+                        No funds were moved. You can safely retry.
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-[#1f1f1f] p-3">
                   <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#2a2a2a] text-[#ffb3ad]">
@@ -368,16 +478,16 @@ export default function CheckoutPage() {
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    className={
-                      transactionState === "confirmed"
-                        ? "flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#ffb3ad] text-[#410004] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all"
-                        : transactionState === "pending"
-                          ? "flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451]/80 text-[#fff] opacity-80 transition-all"
-                          : "flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]"
-                    }
+                    disabled={view.disabled}
+                    className={[
+                      "flex h-14 w-full items-center justify-center gap-2 rounded-xl disabled:cursor-not-allowed",
+                      buttonToneClasses[view.tone],
+                    ].join(" ")}
                   >
-                    <span className="material-symbols-outlined text-[20px]">lock</span>
-                    <span className="text-base font-semibold">{buttonLabel}</span>
+                    <span className="material-symbols-outlined text-[20px]">
+                      {view.buttonIcon}
+                    </span>
+                    <span className="text-base font-semibold">{view.buttonLabel}</span>
                   </button>
 
                   <div className="flex items-center justify-center gap-2 text-[#a7a0a0]">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -58,7 +59,13 @@ export default async function ConfirmationPage({
 
           <div className="relative z-10 mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#1f1f1f]">
             <div className="relative h-32 w-full overflow-hidden bg-[#2a2a2a]">
-              <img src={event.image} alt={event.title} className="h-full w-full object-cover opacity-40" />
+              <Image
+                src={event.image}
+                alt={event.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 896px"
+                className="object-cover opacity-40"
+              />
             </div>
 
             <div className="grid gap-4 p-4 sm:grid-cols-[1.2fr_0.8fr] sm:p-5">

@@ -15,7 +15,7 @@ Web app for **Trea**, an event registration and ticketing platform on Stellar/So
 ## Tech stack
 
 - **Next.js** (App Router) + TypeScript
-- **Tailwind CSS**
+- **Tailwind CSS v4**
 - **`@stellar/stellar-sdk`** — building and submitting transactions
 - **`@creit.tech/stellar-wallets-kit`** — wallet connection (Freighter and others)
 
@@ -56,6 +56,19 @@ npm install
 cp .env.local.example .env.local   # fill in backend URL, contract ID, network
 npm run dev
 ```
+
+### Styling with Tailwind CSS
+
+This project uses **Tailwind CSS v4**, which is the setup recommended by the current Next.js documentation.
+
+- `tailwindcss` and `@tailwindcss/postcss` are installed as dev dependencies.
+- [`postcss.config.mjs`](./postcss.config.mjs) registers the `@tailwindcss/postcss` plugin.
+- [`app/globals.css`](./app/globals.css) imports Tailwind with `@import "tailwindcss";` and defines the theme tokens in `@theme`.
+- [`app/layout.tsx`](./app/layout.tsx) imports the global stylesheet.
+
+Tailwind v4 detects template files automatically, so a `tailwind.config.ts` file and the legacy `@tailwind base;` / `@tailwind components;` / `@tailwind utilities;` directives are not required.
+
+To verify Tailwind is working, run `npm run dev`, open `/`, and confirm the footer renders solid black (`bg-black`) and the page is styled with the project's utilities.
 
 ### Environment variables
 
