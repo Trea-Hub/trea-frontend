@@ -38,7 +38,7 @@ export default async function ConfirmationPage({
           <div className="relative z-10 flex flex-col items-center text-center">
             <div className="relative mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#2a2a2a] shadow-[0_0_30px_rgba(255,84,81,0.25)]">
               <div className="absolute inset-0 rounded-full bg-[#ff5451]/15 blur-xl" />
-              <span className="material-symbols-outlined relative text-[34px] text-[#ffb3ad]" style={{ fontVariationSettings: "'FILL' 1" }}>
+              <span className="material-symbols-outlined material-symbols-filled relative text-[34px] text-[#ffb3ad]">
                 check_circle
               </span>
             </div>
