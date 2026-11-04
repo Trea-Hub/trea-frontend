@@ -68,6 +68,19 @@ This project uses **Tailwind CSS v4**, which is the setup recommended by the cur
 
 Tailwind v4 detects template files automatically, so a `tailwind.config.ts` file and the legacy `@tailwind base;` / `@tailwind components;` / `@tailwind utilities;` directives are not required.
 
+The project palette is available as named theme utilities. Prefer these tokens instead of repeating arbitrary hex values:
+
+- `canvas`, `background`, `surface`, and `surface-raised` for dark backgrounds
+- `foreground`, `foreground-strong`, and `muted` for text
+- `accent` and `accent-soft` for red actions and emphasis
+
+```tsx
+<button className="bg-accent text-white">Register</button>
+<div className="bg-surface text-foreground">Event details</div>
+```
+
+Use the shared theme token names in components; arbitrary values are appropriate only for unique spacing, sizing, shadows, or colors outside the documented palette.
+
 To verify Tailwind is working, run `npm run dev`, open `/`, and confirm the footer renders solid black (`bg-black`) and the page is styled with the project's utilities.
 
 ### Environment variables

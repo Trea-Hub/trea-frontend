@@ -11,12 +11,13 @@ export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-[#ff5451] text-white shadow-[0_0_20px_-4px_rgba(239,68,68,0.4)] hover:bg-[#e64a47]",
-  secondary: "bg-[#2a2a2a] text-[#f3f0ee] hover:bg-[#353534]",
-  subtle: "bg-[#171717] text-[#d7d2cf] hover:bg-[#242424] hover:text-[#f3f0ee]",
+    "bg-accent text-white shadow-[0_0_20px_-4px_rgba(239,68,68,0.4)] hover:bg-[#e64a47]",
+  secondary: "bg-surface-raised text-foreground-strong hover:bg-[#353534]",
+  subtle:
+    "bg-[#171717] text-muted hover:bg-[#242424] hover:text-foreground-strong",
   ghost:
-    "bg-transparent text-[#d7d2cf] hover:bg-[#242424] hover:text-[#f3f0ee]",
-  danger: "bg-[#171717] text-[#ffb4ab] hover:bg-[#93000a]/20",
+    "bg-transparent text-muted hover:bg-[#242424] hover:text-foreground-strong",
+  danger: "bg-[#171717] text-accent-soft hover:bg-[#93000a]/20",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
