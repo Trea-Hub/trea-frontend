@@ -81,6 +81,20 @@ The project palette is available as named theme utilities. Prefer these tokens i
 
 Use the shared theme token names in components; arbitrary values are appropriate only for unique spacing, sizing, shadows, or colors outside the documented palette.
 
+### Error-state demos
+
+Use these routes to exercise user-facing error feedback:
+
+- Registration failure: `/events/meridian-2025/checkout?result=rejected`, then select **Confirm & Sign Transaction**
+- Network/RPC failure: `/events/meridian-2025/checkout?result=rpc`, then select **Confirm & Sign Transaction**
+- Refund failure: `/dashboard/user?result=refund_failed`, then select **Request Self-Refund**
+- Batch-refund failure: `/dashboard/organiser?result=refund_failed`, then open **Smart Contract Controls** and select **Batch Refund Attendees**
+- Payout failure: `/dashboard/organiser?result=payout_failed`, then select **Release Payout**
+- Event-cancellation failure: `/dashboard/organiser?result=cancel_failed`, then select **Halt Escrow & Cancel Event**
+- Data-fetch failure: `/?demo=fetch_error`
+
+Checkout also supports `result=network`, `result=balance`, and `result=failed`. Toast notifications provide concise feedback while checkout keeps its detailed inline error panel for recovery guidance.
+
 To verify Tailwind is working, run `npm run dev`, open `/`, and confirm the footer renders solid black (`bg-black`) and the page is styled with the project's utilities.
 
 ### Environment variables

@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "@/components/Card";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { useNotifications } from "@/components/Notifications";
+import { ApiError, getErrorMessage } from "@/lib/api-error";
 
 type EventItem = {
   title: string;
@@ -99,6 +101,16 @@ const events: EventItem[] = [
   },
 ];
 
+async function loadEventFeed(): Promise<EventItem[]> {
+  if (new URLSearchParams(window.location.search).get("demo") === "fetch_error") {
+    throw new ApiError(
+      "The event service is unavailable. Please retry in a moment.",
+    );
+  }
+
+  return events;
+}
+
 function SearchIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
@@ -137,8 +149,40 @@ function ChevronIcon() {
 }
 
 export default function Home() {
+  const { notify } = useNotifications();
+  const fetchErrorShown = useRef(false);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+
+  useEffect(() => {
+    if (fetchErrorShown.current) return;
+
+    let active = true;
+
+    async function loadEvents() {
+      try {
+        await loadEventFeed();
+      } catch (error) {
+        if (!active || fetchErrorShown.current) return;
+
+        fetchErrorShown.current = true;
+        notify({
+          tone: "error",
+          title: "Could not load events",
+          message: getErrorMessage(
+            error,
+            "The event service is unavailable. Please retry in a moment.",
+          ),
+        });
+      }
+    }
+
+    void loadEvents();
+
+    return () => {
+      active = false;
+    };
+  }, [notify]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const filteredEvents = useMemo(() => {

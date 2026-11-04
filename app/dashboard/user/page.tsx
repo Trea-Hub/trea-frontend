@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Card } from "@/components/Card";
+import { useNotifications } from "@/components/Notifications";
 
 type TicketStatus = "upcoming" | "past" | "checked-in";
 type RegistrationFilter = "upcoming" | "past" | "waitlist";
@@ -259,6 +260,7 @@ const bottomNavItems: BottomNavItem[] = [
 ];
 
 export default function UserDashboardPage() {
+  const { notify } = useNotifications();
   const [activeFilter, setActiveFilter] =
     useState<RegistrationFilter>("upcoming");
 
@@ -279,6 +281,28 @@ export default function UserDashboardPage() {
 
     return [];
   }, [activeFilter]);
+
+  const handleRefund = (registration: Registration) => {
+    const refundFailed =
+      new URLSearchParams(window.location.search).get("result") ===
+      "refund_failed";
+
+    if (refundFailed) {
+      notify({
+        tone: "error",
+        title: "Refund failed",
+        message:
+          "The refund transaction was not confirmed. No funds or ticket status changed.",
+      });
+      return;
+    }
+
+    notify({
+      tone: "success",
+      title: "Refund requested",
+      message: `Your self-refund request for ${registration.title} was submitted to the Stellar network.`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#131313] text-[#e5e2e1]">
@@ -446,6 +470,7 @@ export default function UserDashboardPage() {
                     {registration.footer.actionLabel ? (
                       <button
                         type="button"
+                        onClick={() => handleRefund(registration)}
                         className="flex items-center gap-1 text-[11px] text-[#a7a0a0] transition hover:text-[#ffb3ad]"
                       >
                         <span className="material-symbols-outlined text-[14px]">

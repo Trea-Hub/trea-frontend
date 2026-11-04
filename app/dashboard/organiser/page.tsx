@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button, buttonClassName } from "@/components/Button";
+import { useNotifications } from "@/components/Notifications";
 
 type PayoutState = "idle" | "querying" | "ready";
 
@@ -199,15 +200,61 @@ function StatCard({ stat }: { stat: Stat }) {
 }
 
 function LiveEventCard({ event }: { event: LiveEvent }) {
+  const { notify } = useNotifications();
   const [controlsOpen, setControlsOpen] = useState(false);
   const [payoutState, setPayoutState] = useState<PayoutState>("idle");
+
+  const getDemoResult = () =>
+    new URLSearchParams(window.location.search).get("result");
 
   const handlePayout = () => {
     if (payoutState !== "idle") return;
 
     setPayoutState("querying");
-    window.setTimeout(() => setPayoutState("ready"), 1000);
-    window.setTimeout(() => setPayoutState("idle"), 3200);
+    window.setTimeout(() => {
+      if (getDemoResult() === "payout_failed") {
+        setPayoutState("idle");
+        notify({
+          tone: "error",
+          title: "Payout failed",
+          message:
+            "The payout transaction was not confirmed. Escrow funds remain locked.",
+        });
+        return;
+      }
+
+      setPayoutState("ready");
+      notify({
+        tone: "success",
+        title: "Payout released",
+        message: "Escrow funds were released to your Stellar wallet.",
+      });
+      window.setTimeout(() => setPayoutState("idle"), 2200);
+    }, 1000);
+  };
+
+  const handleBatchRefund = () => {
+    const failed = getDemoResult() === "refund_failed";
+
+    notify({
+      tone: failed ? "error" : "success",
+      title: failed ? "Batch refund failed" : "Batch refund started",
+      message: failed
+        ? "The refund transaction was not confirmed. No attendee balances changed."
+        : "Refund transactions were submitted to the Stellar network.",
+    });
+  };
+
+  const handleCancelEvent = () => {
+    const failed = getDemoResult() === "cancel_failed";
+
+    notify({
+      tone: failed ? "error" : "success",
+      title: failed ? "Cancel event failed" : "Event cancellation started",
+      message: failed
+        ? "The cancellation transaction was not confirmed. Escrow remains active."
+        : "The cancellation transaction was submitted to the Stellar network.",
+    });
   };
 
   const payoutIcon =
@@ -389,6 +436,7 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
               variant="ghost"
               fullWidth
               className="justify-start"
+              onClick={handleBatchRefund}
             >
               <span className="material-symbols-outlined text-[18px]">
                 history
@@ -399,6 +447,7 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
               variant="danger"
               fullWidth
               className="justify-start"
+              onClick={handleCancelEvent}
               aria-label="Cancel event"
             >
               <span className="material-symbols-outlined text-[18px]">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useReducer, useRef, useState } from "react";
+import { useNotifications } from "@/components/Notifications";
 import {
   canSubmitCheckout,
   checkoutReducer,
@@ -84,6 +85,7 @@ function getSimulatedFailureCode(): CheckoutFailureCode | null {
 }
 
 export default function CheckoutPage() {
+  const { notify } = useNotifications();
   const params = useParams<{ id?: string }>();
   const router = useRouter();
   const event =
@@ -97,6 +99,7 @@ export default function CheckoutPage() {
   );
   const timeoutRef = useRef<number | null>(null);
   const redirectRef = useRef<number | null>(null);
+  const lastNotifiedFailureRef = useRef<string | null>(null);
 
   const view = getCheckoutView(checkoutState);
   const busy = isCheckoutBusy(checkoutState);
@@ -106,6 +109,23 @@ export default function CheckoutPage() {
   const feeLabel = token === "XLM" ? "~0.00001 XLM" : "~0.00001 USDC";
   const fiatText =
     token === "XLM" ? "Estimated value ~$45.60 USD" : "Fixed pegged rate: 1.00 USDC = $1.00";
+
+  useEffect(() => {
+    if (checkoutState.status !== "failed") {
+      lastNotifiedFailureRef.current = null;
+      return;
+    }
+
+    const failureSignature = `${checkoutState.error.code}:${checkoutState.error.message}`;
+    if (lastNotifiedFailureRef.current === failureSignature) return;
+
+    lastNotifiedFailureRef.current = failureSignature;
+    notify({
+      tone: "error",
+      title: "Transaction failed",
+      message: checkoutState.error.message,
+    });
+  }, [checkoutState, notify]);
 
   useEffect(() => {
     return () => {
