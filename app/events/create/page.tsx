@@ -194,14 +194,14 @@ function SegmentedControl<T extends string>({
 function BottomNav() {
   return (
     <nav className="pb-safe fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#1a1a1a]/95 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[560px] items-center justify-around px-3 py-2 sm:px-6">
+      <div className="mx-auto flex w-full max-w-[560px] items-center justify-around px-3 py-2 sm:px-6">
         {bottomNavItems.map((item) =>
           item.featured ? (
             <Link
               key={item.label}
               href={item.href}
               aria-current="page"
-              className="-mt-5 flex flex-col items-center justify-center gap-1"
+              className="-mt-5 flex shrink-0 flex-col items-center justify-center gap-1"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ff5451] text-white shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] transition hover:bg-[#e64a47]">
                 <span className="material-symbols-outlined text-[26px]">
@@ -216,7 +216,7 @@ function BottomNav() {
             <Link
               key={item.label}
               href={item.href}
-              className="flex flex-1 flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 text-[10px] uppercase tracking-[0.08em] text-[#a7a0a0] transition-colors hover:text-[#f3f0ee]"
+              className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 text-[10px] uppercase tracking-[0.08em] text-[#a7a0a0] transition-colors hover:text-[#f3f0ee]"
             >
               <span className="material-symbols-outlined text-[22px]">
                 {item.icon}
@@ -359,7 +359,7 @@ export default function CreateEventPage() {
         </div>
       </header>
 
-      <main className="relative flex min-h-screen flex-col bg-[#131313] pt-16 pb-24">
+      <main className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#131313] pt-16 pb-24">
         <form
           noValidate
           onSubmit={handleSubmit(onValid, onInvalid)}
@@ -571,8 +571,8 @@ export default function CreateEventPage() {
           </FormSection>
 
           <FormSection icon="calendar_month" title="2. Date & Location">
-            <div className="grid gap-2 sm:grid-cols-2">
-              <div className="flex flex-col gap-1.5">
+            <div className="grid min-w-0 gap-2 sm:grid-cols-2">
+              <div className="flex min-w-0 flex-col gap-1.5">
                 <label
                   htmlFor="starts-at"
                   className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#c6c6c7]"
@@ -581,7 +581,7 @@ export default function CreateEventPage() {
                 </label>
                 <div
                   className={[
-                    "flex items-center gap-2 rounded-lg bg-[#0e0e0e] p-2",
+                    "flex min-w-0 items-center gap-2 rounded-lg bg-[#0e0e0e] p-2",
                     errors.startsAt ? "ring-1 ring-[#93000a]" : "",
                   ].join(" ")}
                 >
@@ -605,7 +605,7 @@ export default function CreateEventPage() {
                 <FieldError id="starts-at-error" message={errors.startsAt?.message} />
               </div>
 
-              <div className="flex flex-col gap-1.5">
+              <div className="flex min-w-0 flex-col gap-1.5">
                 <label
                   htmlFor="ends-at"
                   className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#c6c6c7]"
@@ -614,7 +614,7 @@ export default function CreateEventPage() {
                 </label>
                 <div
                   className={[
-                    "flex items-center gap-2 rounded-lg bg-[#0e0e0e] p-2",
+                    "flex min-w-0 items-center gap-2 rounded-lg bg-[#0e0e0e] p-2",
                     errors.endsAt ? "ring-1 ring-[#93000a]" : "",
                   ].join(" ")}
                 >

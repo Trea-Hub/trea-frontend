@@ -150,7 +150,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
+    <main className="min-h-screen overflow-x-hidden bg-[#131313] text-[#e5e2e1]">
       <div className="mx-auto max-w-5xl px-4 pb-24 pt-20 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -194,9 +194,9 @@ export default function CheckoutPage() {
             <div className="h-full w-full rounded-full bg-[#ff5451] shadow-[0_0_12px_rgba(255,84,81,0.6)]" />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[1.3fr_0.95fr]">
-            <div className="space-y-4">
-              <div className="rounded-2xl border border-white/10 bg-[#1b1b1b] p-4 shadow-[0_24px_64px_rgba(0,0,0,0.28)]">
+          <div className="grid min-w-0 gap-6 lg:grid-cols-[1.3fr_0.95fr]">
+            <div className="min-w-0 space-y-4">
+              <div className="min-w-0 rounded-2xl border border-white/10 bg-[#1b1b1b] p-4 shadow-[0_24px_64px_rgba(0,0,0,0.28)]">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2a2a2a] text-[#ffb3ad]">
@@ -215,8 +215,8 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-[#1b1b1b] p-4">
-                <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0 rounded-2xl border border-white/10 bg-[#1b1b1b] p-4">
+                <div className="flex min-w-0 items-start justify-between gap-4">
                   <div>
                     <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#a7a0a0]">
                       Event
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
                   </span>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl bg-[#0f0f0f] p-1">
+                <div className="mt-4 grid min-w-0 grid-cols-2 gap-2 rounded-xl bg-[#0f0f0f] p-1">
                   <button
                     type="button"
                     onClick={() => setToken("XLM")}
