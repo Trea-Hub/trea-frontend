@@ -182,7 +182,7 @@ export function CheckoutClient({ event }: { event: CheckoutEvent }) {
       contentClassName="overflow-x-hidden"
     >
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#ffb3ad]">

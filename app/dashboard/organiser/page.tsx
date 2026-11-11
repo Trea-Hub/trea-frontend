@@ -6,112 +6,24 @@ import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Button, buttonClassName } from "@/components/Button";
 import { useNotifications } from "@/components/Notifications";
+import {
+  demoDraftEvent,
+  demoLiveEvent,
+  demoOrganiserStats,
+  type DemoDraftEvent,
+  type DemoLiveEvent,
+  type DemoOrganiserStat,
+} from "@/lib/demo-data";
 
 type PayoutState = "idle" | "querying" | "ready";
 
-type Stat = {
-  label: string;
-  value: string;
-  suffix: string;
-  detail: string;
-  icon: string;
-  accent?: "primary" | "muted";
-  progressClassName?: string;
-  progressLabel?: string;
-};
+type Stat = DemoOrganiserStat;
+type LiveEvent = DemoLiveEvent;
+type DraftEvent = DemoDraftEvent;
 
-type LiveEvent = {
-  kind: "live";
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  image: string;
-  statusLabel: string;
-  protocolLabel: string;
-  claimed: number;
-  total: number;
-  percentClassName: string;
-  percentLabel: string;
-  remaining: number;
-};
-
-type DraftEvent = {
-  kind: "draft";
-  title: string;
-  description: string;
-  date: string;
-  capacity: number;
-  updatedAt: string;
-  image: string;
-};
-
-const stats: Stat[] = [
-  {
-    label: "Total Revenue",
-    value: "42,500",
-    suffix: "XLM",
-    detail: "≈ $16,150.00 USD",
-    icon: "account_balance_wallet",
-    accent: "primary",
-  },
-  {
-    label: "Tickets Sold",
-    value: "785",
-    suffix: "/ 1,000",
-    detail: "",
-    icon: "confirmation_number",
-    accent: "primary",
-    progressClassName: "w-[78.5%]",
-    progressLabel: "78.5%",
-  },
-  {
-    label: "Check-In Rate",
-    value: "62%",
-    suffix: "active",
-    detail: "487 of 785 scanned",
-    icon: "how_to_reg",
-    accent: "primary",
-  },
-  {
-    label: "Escrow Locked",
-    value: "8,200",
-    suffix: "XLM",
-    detail: "Smart Contract Hold",
-    icon: "lock",
-    accent: "muted",
-  },
-];
-
-const liveEvent: LiveEvent = {
-  kind: "live",
-  title: "Meridian Global Builders Summit 2025",
-  description:
-    "Official Stellar ecosystem developer assembly and protocol showcase.",
-  date: "Oct 24–26, 2025",
-  location: "San Francisco, CA",
-  image:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBrYkxkwgXOcpYmMwQ9or-ChzfhpeCVTAA34R7dpj9gg7Sg31OwJ7CILyqJi3H-2g8hH-HKYipITlCnL4h0kif0KSIey2JHXTt8tljX6ehEFZhReJDXUfFB3py33Bo4YLS8sZSpcYrwcSdS5jHlUlknnO3NM0xThdga7S2Q9_yjzdfuJ0h0mb2ka8yIIAPwupOB0Op2a4TEcZlj1TpojrEEGXziRfCf7t-hWelNkKzSkL08eaJnR6sJ",
-  statusLabel: "LIVE PASS ACTIVE",
-  protocolLabel: "Soroban v21",
-  claimed: 785,
-  total: 1000,
-  percentClassName: "w-[78.5%]",
-  percentLabel: "78.5%",
-  remaining: 215,
-};
-
-const draftEvent: DraftEvent = {
-  kind: "draft",
-  title: "Soroban DeFi Hack Night",
-  description:
-    "Hands-on smart contract audit sprint and cross-chain liquidity workshop.",
-  date: "Nov 14, 2025",
-  capacity: 150,
-  updatedAt: "Modified 2h ago",
-  image:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuDl_DfmCrmk68q-X52vPEpVL_-52kK1vAo8-q1rLXRQpWwtv1QiLE0h9lENEptVpdIx98LRcAApLnJ17VcsEE8dpiBterHPcsoQ9wl9PFXBpKm1Gvj3iNAPRCgwgRTCqg6UX_KuJ2kwV3NYwuo2xmdSThfZRblM-8H3bMSYjCAUCpM2pItfQa4G0k8_2mfLbwSOtpKasS2brHlsUq5ktuiPJW1UplGISWJfnw_UyYHPQc4pw4YOzGS9",
-};
+const stats = demoOrganiserStats;
+const liveEvent = demoLiveEvent;
+const draftEvent = demoDraftEvent;
 
 function StatCard({ stat }: { stat: Stat }) {
   const accentClass =
@@ -229,6 +141,22 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
     });
   };
 
+  const handleScan = () => {
+    notify({
+      tone: "success",
+      title: "Scanner ready",
+      message: "Demo mode: attendee QR scanning opens on the live backend.",
+    });
+  };
+
+  const handleGuests = () => {
+    notify({
+      tone: "success",
+      title: "Guest list loaded",
+      message: `${event.claimed} attendees are confirmed for ${event.title}.`,
+    });
+  };
+
   const payoutIcon =
     payoutState === "querying"
       ? "refresh"
@@ -292,6 +220,15 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
           <p className="line-clamp-1 text-[13px] text-[#cfc9c8]">
             {event.description}
           </p>
+          <Link
+            href={`/events/${event.eventId}`}
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#ffb3ad] transition hover:text-[#ffd6d1]"
+          >
+            View public event page
+            <span className="material-symbols-outlined text-[14px]">
+              north_east
+            </span>
+          </Link>
         </div>
 
         <div className="flex flex-col gap-1.5 rounded-lg bg-[#171717] p-2">
@@ -323,6 +260,7 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
           <Button
             fullWidth
             className="col-span-2"
+            onClick={handleScan}
             aria-label="Scan and check in attendees"
           >
             <span className="material-symbols-outlined text-[20px]">
@@ -334,6 +272,7 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
           <Button
             variant="secondary"
             fullWidth
+            onClick={handleGuests}
             aria-label="View attendees"
           >
             <span className="material-symbols-outlined text-[18px] text-[#ffb3ad]">
@@ -394,16 +333,19 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
                 : "hidden"
             }
           >
-            <Button
-              variant="ghost"
-              fullWidth
-              className="justify-start"
+            <Link
+              href="/events/create"
+              className={buttonClassName({
+                variant: "ghost",
+                fullWidth: true,
+                className: "justify-start",
+              })}
             >
               <span className="material-symbols-outlined text-[18px]">
                 edit
               </span>
               Edit Event Details &amp; Tiers
-            </Button>
+            </Link>
             <Button
               variant="ghost"
               fullWidth
@@ -435,6 +377,16 @@ function LiveEventCard({ event }: { event: LiveEvent }) {
 }
 
 function DraftEventCard({ event }: { event: DraftEvent }) {
+  const { notify } = useNotifications();
+
+  const handleDelete = () => {
+    notify({
+      tone: "success",
+      title: "Draft deleted",
+      message: `${event.title} was removed from your local drafts.`,
+    });
+  };
+
   return (
     <article className="flex flex-col overflow-hidden rounded-xl bg-[#1f1f1f] shadow-md">
       <div className="flex flex-col gap-4 p-4">
@@ -477,17 +429,37 @@ function DraftEventCard({ event }: { event: DraftEvent }) {
                 {event.date} · Cap: {event.capacity}
               </span>
             </div>
+            <Link
+              href={`/events/${event.eventId}`}
+              className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-[#ffb3ad] transition hover:text-[#ffd6d1]"
+            >
+              Preview event page
+              <span className="material-symbols-outlined text-[14px]">
+                north_east
+              </span>
+            </Link>
           </div>
         </div>
 
         <div className="flex items-center gap-2 pt-1">
-          <Button variant="secondary" className="flex-1">
+          <Link
+            href="/events/create"
+            className={buttonClassName({
+              variant: "secondary",
+              className: "flex-1",
+            })}
+          >
             <span className="material-symbols-outlined text-[18px] text-[#ffb3ad]">
               edit_note
             </span>
             Continue Editing
-          </Button>
-          <Button variant="ghost" size="icon" aria-label="Delete draft">
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleDelete}
+            aria-label="Delete draft"
+          >
             <span className="material-symbols-outlined text-[18px]">
               delete
             </span>

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/Card";
 import { useNotifications } from "@/components/Notifications";
+import { demoRegistrations } from "@/lib/demo-data";
 
 type TicketStatus = "upcoming" | "past" | "checked-in";
 type RegistrationFilter = "upcoming" | "past" | "waitlist";
@@ -23,6 +24,7 @@ type PassBlock = {
 
 type Registration = {
   id: string;
+  eventId: string;
   title: string;
   status: TicketStatus;
   statusLabel: string;
@@ -46,78 +48,15 @@ type Registration = {
   accentClassName?: string;
 };
 
-const registrations: Registration[] = [
-  {
-    id: "meridian-2025",
-    title: "Meridian Global Builders Summit 2025",
-    status: "upcoming",
-    statusLabel: "Confirmed • On-Chain",
-    date: "Oct 14-16, 2025",
-    dateIcon: "calendar_month",
-    location: "Singapore",
-    pass: {
-      kind: "qr",
-      label: "Pass Identifier",
-      value: "#TREA-9482",
-      badge: "Soroban v22 Validated",
-      badgeIcon: "shield",
-    },
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDAGSGk_hHT8whBJgDBDUPqWioBqwPaAuQkZzs8g-u_FI_0oFrp8kLzZHz56xncK2Bdym-xfql8KW5wyEtSkTsTHlk5h0DS9LbONv0Obv7pZmKBTmBJ7jwQ_wZ4IL95Wifqt3mw84t-IzMihd_jAjRxZTU88z7WMI2I6zRzEXirZKDMqDV8wVBbnfy9aOFeUwnTAS1xvaSXOGi8PD3-n0KIyTGeFAkgE7F1IXrNkLeqmSKchgAkidtL",
-    actionLabel: "View Passcode / Dynamic QR",
-    actionIcon: "qr_code_2",
-    actionVariant: "primary",
-    footer: {
-      actionLabel: "Request Self-Refund",
-      actionIcon: "undo",
-      note: "42h left to refund",
-    },
-    accentClassName: "from-[#ff5451] via-[#ffb3b6] to-transparent",
-  },
-  {
-    id: "soroban-workshop",
-    title: "Smart Contracts with Soroban Workshop",
-    status: "upcoming",
-    statusLabel: "Confirmed • Free Tier",
-    date: "Nov 02, 2025",
-    dateIcon: "videocam",
-    location: "Virtual Live Session",
-    pass: {
-      kind: "access",
-      label: "Access Link Status",
-      value: "Unlocked in Wallet",
-      sideLabel: "Pass #TREA-1108",
-    },
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDbYw3O4o67IQU-Bj2atttmu1wSF7qe6X0e16ujpwBuiX8eFMhaMggra9DN8NAt8c8baG3Wt-4ifWAfuiVx4m5vgl-PM60OHqhO6s4knNKhPVjBnwZC3HN5GsW8m_uVuJpa5wn91JJnO38DYzb8CVVSqyA_0MTRindxlmKb2f2yZdeMkOC00bCs8YNtB1cq7MU-kOzqQ50H3vLHkTeEPmMruVT6l6oN5MMhTeY44GZRL6KQEtbGb3Ev",
-    actionLabel: "Join Stream / View Details",
-    actionIcon: "play_circle",
-    actionVariant: "secondary",
-  },
-  {
-    id: "austin-hacker-house",
-    title: "Stellar Hacker House Austin",
-    status: "checked-in",
-    statusLabel: "Checked-In • Attended",
-    date: "Aug 2025",
-    dateIcon: "history",
-    location: "Austin, TX",
-    pass: {
-      kind: "poap",
-      value: "Austin Hacker PoAP #0441",
-      wallet: "Minted to GBLX...78AQ",
-    },
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDupdq02pr5hIaWrc5X64zvm_08-AkHGsfEvbseyO_QtRX9APEEYi0x9AC6Os4A6osoUZ9vqUJ808Sdox2aqKPR7MmjwtTGPiWhu4aDaLNI3NO3vm2wRQg0oNd0AXrZVPAjhfw5Y4uXet5ofdAy_Z9zHBMAU65R7xhMYV6NyCAqWxmjyH-BvY3Mrile_E-x_THwT8fNEO4Urr6YH0DxtJlUdVbQ1h9mfyEI2vLcJhGnP7fqtcQlnoOS",
-    actionLabel: "View PoAP / NFT Badge",
-    actionIcon: "military_tech",
-    actionVariant: "secondary",
-    secondaryAction: {
-      label: "Event Photo Gallery (142 photos)",
-      href: "/events/austin-hacker-house/gallery",
-    },
-  },
-];
+const registrations: Registration[] = demoRegistrations.map((registration) => ({
+  ...registration,
+  dateIcon:
+    registration.pass.kind === "access"
+      ? "videocam"
+      : registration.status === "checked-in"
+        ? "history"
+        : "calendar_month",
+}));
 
 const filterTabs: Array<{ value: RegistrationFilter; label: string }> = [
   { value: "upcoming", label: "Upcoming" },
@@ -257,6 +196,18 @@ export default function UserDashboardPage() {
     return [];
   }, [activeFilter]);
 
+  const handleViewPass = (registration: Registration) => {
+    notify({
+      tone: "success",
+      title:
+        registration.pass.kind === "poap" ? "PoAP badge ready" : "Pass ready",
+      message:
+        registration.pass.kind === "poap"
+          ? `${registration.pass.value} is available in your Stellar wallet.`
+          : `${registration.actionLabel} for ${registration.title} is ready to scan.`,
+    });
+  };
+
   const handleRefund = (registration: Registration) => {
     const refundFailed =
       new URLSearchParams(window.location.search).get("result") ===
@@ -364,6 +315,7 @@ export default function UserDashboardPage() {
                   <div className="flex flex-col gap-2">
                     <button
                       type="button"
+                      onClick={() => handleViewPass(registration)}
                       className={[
                         "flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[15px] font-semibold transition",
                         actionStyles[registration.actionVariant],
@@ -374,6 +326,16 @@ export default function UserDashboardPage() {
                       </span>
                       {registration.actionLabel}
                     </button>
+
+                    <Link
+                      href={`/events/${registration.eventId}`}
+                      className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-[#171717] px-4 py-2 text-[11px] text-[#d7d2cf] transition hover:bg-[#242424] hover:text-[#f3f0ee]"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">
+                        open_in_new
+                      </span>
+                      View Event Page
+                    </Link>
 
                     {registration.secondaryAction ? (
                       <Link

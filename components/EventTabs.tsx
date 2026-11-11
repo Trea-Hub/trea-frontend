@@ -107,7 +107,7 @@ export function EventTabs({
               Keynote Speakers
             </h3>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {event.speakers.map((speaker) => (
                 <div
                   key={speaker.name}
@@ -143,7 +143,7 @@ export function EventTabs({
               Curated Track Agenda
             </h3>
 
-            <div className="space-y-3">
+            <div className="grid gap-3 lg:grid-cols-2">
               {event.agenda.map((item) => (
                 <div
                   key={`${item.time}-${item.title}`}
@@ -181,7 +181,7 @@ export function EventTabs({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {event.galleryPreview.map((photo, index) => {
               const isLast = index === event.galleryPreview.length - 1;
 

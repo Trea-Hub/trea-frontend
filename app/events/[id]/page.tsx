@@ -131,7 +131,7 @@ export default async function EventPage({
               </div>
             </div>
 
-            <aside className="space-y-4">
+            <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
               <div className="rounded-2xl border border-white/10 bg-[#1f1f1f] p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">

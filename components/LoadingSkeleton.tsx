@@ -11,18 +11,6 @@ export function Skeleton({ className = "" }: SkeletonProps) {
   );
 }
 
-export function PageHeaderSkeleton() {
-  return (
-    <header className="fixed inset-x-0 top-0 z-40 h-16 border-b border-white/10 bg-[#131313]/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Skeleton className="h-8 w-24 rounded-md" />
-        <Skeleton className="h-7 w-28 rounded-full" />
-        <Skeleton className="h-8 w-8 rounded-full" />
-      </div>
-    </header>
-  );
-}
-
 export function EventCardSkeleton({ compact = false }: { compact?: boolean }) {
   return (
     <div className="overflow-hidden rounded-lg border border-white/10 bg-[#1b1b1b]">

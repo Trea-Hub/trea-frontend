@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { useNotifications } from "@/components/Notifications";
 import type { DemoEventPhoto } from "@/lib/demo-data";
 
 type GalleryClientProps = {
@@ -18,6 +19,7 @@ export function GalleryClient({
   galleryCount,
   photos: allPhotos,
 }: GalleryClientProps) {
+  const { notify } = useNotifications();
   const [selectedPhoto, setSelectedPhoto] = useState<DemoEventPhoto | null>(null);
   const [likedIds, setLikedIds] = useState<string[]>(
     allPhotos.length > 0 ? [allPhotos[0].id] : [],
@@ -111,6 +113,14 @@ export function GalleryClient({
 
             <button
               type="button"
+              onClick={() =>
+                notify({
+                  tone: "success",
+                  title: "Upload ready",
+                  message:
+                    "Demo mode: photo uploads will be pinned to IPFS once the backend is connected.",
+                })
+              }
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] px-4 py-3 text-base font-semibold text-[#1d0d0d] transition hover:bg-[#ff6e66]"
             >
               <span>📷</span>
@@ -143,7 +153,7 @@ export function GalleryClient({
               </p>
             </div>
           ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((photo, index) => {
               const isLiked = likedIds.includes(photo.id);
 
@@ -154,10 +164,16 @@ export function GalleryClient({
                   onClick={() => setSelectedPhoto(photo)}
                   className={[
                     "group relative overflow-hidden rounded-2xl border border-white/10 bg-[#1f1f1f] text-left shadow-[0_16px_30px_rgba(0,0,0,0.18)]",
-                    index === 0 ? "sm:col-span-2" : "",
+                    index === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : "",
                   ].join(" ")}
                 >
-                  <div className={`relative ${index === 0 ? "h-60 sm:h-72" : "h-44 sm:h-52"}`}>
+                  <div
+                    className={`relative ${
+                      index === 0
+                        ? "h-60 sm:h-72 lg:h-[35rem]"
+                        : "h-44 sm:h-52 lg:h-[17rem]"
+                    }`}
+                  >
                     <Image
                       src={photo.image}
                       alt={photo.title}

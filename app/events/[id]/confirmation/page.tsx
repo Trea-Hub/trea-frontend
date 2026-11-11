@@ -18,7 +18,11 @@ export default async function ConfirmationPage({
 
   const seat = event.id === "meridian-2025" ? "A12 · Upper Hall" : "General Admission";
   const ticket = "1x General Pass";
-  const hash = "#4928103";
+  const hashSeed = Array.from(event.id).reduce(
+    (total, character) => total + character.charCodeAt(0),
+    0,
+  );
+  const hash = `#${((hashSeed * 49297) % 9_000_000 + 1_000_000).toString()}`;
 
   return (
     <AppShell
@@ -116,7 +120,7 @@ export default async function ConfirmationPage({
 
                 <p className="mt-3 text-sm leading-relaxed text-[#d7d2cf]">
                   You can initiate a 100% automated refund via your wallet until
-                  <span className="font-medium text-[#f3f0ee]"> Oct 12, 2025, 09:00 AM</span>.
+                  <span className="font-medium text-[#f3f0ee]"> 48 hours before the event starts</span>.
                 </p>
               </div>
             </div>

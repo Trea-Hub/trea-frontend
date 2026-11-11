@@ -86,6 +86,7 @@ export type DemoOrganiserStat = {
 
 export type DemoLiveEvent = {
   kind: "live";
+  eventId: string;
   title: string;
   description: string;
   date: string;
@@ -102,6 +103,7 @@ export type DemoLiveEvent = {
 
 export type DemoDraftEvent = {
   kind: "draft";
+  eventId: string;
   title: string;
   description: string;
   date: string;
@@ -921,6 +923,8 @@ export function getDemoEventRecord(id: string) {
 }
 
 export function getDemoEvents(query: EventQuery = {}): EventItem[] {
+  const now = Date.now();
+
   return demoEventRecords
     .filter((record) => matchesQuery(record, query))
     .map(toItem)
@@ -930,7 +934,17 @@ export function getDemoEvents(query: EventQuery = {}): EventItem[] {
       }
       if (left.dateValue === null) return 1;
       if (right.dateValue === null) return -1;
-      return left.dateValue - right.dateValue;
+
+      const leftIsPast = left.dateValue < now;
+      const rightIsPast = right.dateValue < now;
+
+      if (leftIsPast !== rightIsPast) {
+        return leftIsPast ? 1 : -1;
+      }
+
+      return leftIsPast
+        ? right.dateValue - left.dateValue
+        : left.dateValue - right.dateValue;
     });
 }
 
@@ -1052,11 +1066,12 @@ export const demoOrganiserStats: DemoOrganiserStat[] = [
 
 export const demoLiveEvent: DemoLiveEvent = {
   kind: "live",
+  eventId: "meridian-2025",
   title: "Meridian Global Builders Summit 2025",
   description:
     "Official Stellar ecosystem developer assembly and protocol showcase.",
-  date: "Oct 24–26, 2025",
-  location: "San Francisco, CA",
+  date: "Oct 14 – 16, 2025",
+  location: "Suntec Convention Center, Singapore",
   image: IMAGES.liveMeridian,
   statusLabel: "LIVE PASS ACTIVE",
   protocolLabel: "Soroban v21",
@@ -1069,6 +1084,7 @@ export const demoLiveEvent: DemoLiveEvent = {
 
 export const demoDraftEvent: DemoDraftEvent = {
   kind: "draft",
+  eventId: "soroban-defi-hack-night",
   title: "Soroban DeFi Hack Night",
   description:
     "Hands-on smart contract audit sprint and cross-chain liquidity workshop.",

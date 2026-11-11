@@ -19,14 +19,27 @@ import {
 const DEFAULT_COVER_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuBqvfpVhRJRga-5_f3zyWqVZbEwIMDw5eCRlpoZZ7EMAgiX-Bkxiinf8pgXn39Cg1WwXx5N3cKWmFvz7EOAprSx3bDKWdadSR2UGJX6zJ21VCGhtjLS6sua5B8FXeuE4HdltllRcIRHokXTc2Dpyi9Mk2bFJgr6MNaK1rlz_NALGZtzKMvllUK2tm_16rg2UL-n-cI1RAyia_x2j7eWcSw_cfXrF0Eh_lTO-Gp6uus246BwELHBmxrU";
 
+function toDateTimeLocal(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+const defaultStart = new Date();
+defaultStart.setDate(defaultStart.getDate() + 21);
+defaultStart.setHours(18, 0, 0, 0);
+
+const defaultEnd = new Date(defaultStart);
+defaultEnd.setHours(defaultEnd.getHours() + 4, 30, 0, 0);
+
 const initialFormState: CreateEventFormValues = {
   title: "Stellar Rust & Soroban Developers Meetup",
   description:
     "Join world-class engineers scaling decentralized finance on Stellar. We will explore WASM bytecode optimization, Soroban SDK v21 patterns, and state archival lifecycles.",
   coverImageName: "soroban_devcon_hero.webp",
   coverImageUrl: DEFAULT_COVER_IMAGE,
-  startsAt: "2025-10-24T18:00",
-  endsAt: "2025-10-24T22:30",
+  startsAt: toDateTimeLocal(defaultStart),
+  endsAt: toDateTimeLocal(defaultEnd),
   venue: "hybrid",
   location:
     "The Vault Cyber Hall, San Francisco, CA & stream.stellar.org",
