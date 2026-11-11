@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AppShell } from "@/components/AppShell";
 import { Button, buttonClassName } from "@/components/Button";
 import { useNotifications } from "@/components/Notifications";
 
@@ -43,14 +44,6 @@ type DraftEvent = {
   capacity: number;
   updatedAt: string;
   image: string;
-};
-
-type BottomNavItem = {
-  icon: string;
-  label: string;
-  href: string;
-  active?: boolean;
-  featured?: boolean;
 };
 
 const stats: Stat[] = [
@@ -119,27 +112,6 @@ const draftEvent: DraftEvent = {
   image:
     "https://lh3.googleusercontent.com/aida-public/AB6AXuDl_DfmCrmk68q-X52vPEpVL_-52kK1vAo8-q1rLXRQpWwtv1QiLE0h9lENEptVpdIx98LRcAApLnJ17VcsEE8dpiBterHPcsoQ9wl9PFXBpKm1Gvj3iNAPRCgwgRTCqg6UX_KuJ2kwV3NYwuo2xmdSThfZRblM-8H3bMSYjCAUCpM2pItfQa4G0k8_2mfLbwSOtpKasS2brHlsUq5ktuiPJW1UplGISWJfnw_UyYHPQc4pw4YOzGS9",
 };
-
-const bottomNavItems: BottomNavItem[] = [
-  { icon: "explore", label: "Discover", href: "/" },
-  {
-    icon: "confirmation_number",
-    label: "Tickets",
-    href: "/dashboard/user",
-  },
-  { icon: "add", label: "Create", href: "/events/create", featured: true },
-  {
-    icon: "insights",
-    label: "Manage",
-    href: "/dashboard/organiser",
-    active: true,
-  },
-  {
-    icon: "photo_library",
-    label: "Gallery",
-    href: "/events/meridian-2025/gallery",
-  },
-];
 
 function StatCard({ stat }: { stat: Stat }) {
   const accentClass =
@@ -528,45 +500,8 @@ function DraftEventCard({ event }: { event: DraftEvent }) {
 
 export default function OrganiserDashboardPage() {
   return (
-    <div className="min-h-screen bg-[#131313] text-[#e5e2e1]">
-      <header className="pt-safe fixed inset-x-0 top-0 z-50 bg-[#131313]/80 shadow-[0_1px_8px_rgba(0,0,0,0.04)] backdrop-blur-xl">
-        <div className="flex h-16 items-center justify-between gap-2 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <Image
-              alt="Trea Logo"
-              className="h-8 w-auto object-contain"
-              src="https://lh3.googleusercontent.com/aida/AEtjO1Ww40inGHjn46emaG6LBQY79iEHtmTgVhg8v6vqY3WwChhc1qPp14wKDGsNMV36DVrsONIOD119spGawqKWRz6G9ezqfkZG9Na8fLhJHqaSuiuFSzehriQ9wfKuc5IdOV51Mp0ySF0_DLf44uYaZhOiHI1wss09H5bmiTM2-_JuRFmEVeA8jEzQiwh8o5Jde_vxkZ_jg8IK7UjiwA612NzvF_fX6VTEXUqhAXocRyRj6AluZQHM18yF0jw"
-              width={32}
-              height={32}
-              unoptimized
-            />
-            <span className="text-[16px] font-semibold tracking-tight text-[#e5e2e1]">
-              Trea
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 rounded-full bg-[#1f1f1f] px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[#d7d2cf]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#ffb3ad]" />
-            Stellar Mainnet
-          </div>
-
-          <div className="flex items-center justify-end">
-            <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
-              <Image
-                alt="Profile"
-                className="object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuXodJxvy-va-78PTdiU8ZhKQdHyJwQNqNFdepsOWnUrq659A3aTmf7VBKewRz1Tv6NauE_5vI8gnVfo7SP3O_hkMHlTTrXnfSBuJcS6CoLuhoLo3043VL5ngYQ92abrNW0b_0lKFuIRAJmI3WdBX3fm3vNsEpfMcQmm0A8-1iaJZ9MG-_siQsr6lnhHu3QoLo8urCkVnNInmNoEj4cEtpxrHwmgrhw4RZrejct814COaDYLwlHix"
-                fill
-                sizes="32px"
-              />
-              <span className="absolute -right-0.5 -bottom-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#131313] bg-[#ff5451]" />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="flex flex-col bg-[#131313] pt-16 pb-24">
-        <div className="mx-auto flex w-full max-w-[480px] flex-col gap-6 px-4 pb-28 pt-4 sm:px-6">
+    <AppShell active="manage" title="Organizer Studio" maxWidth="6xl">
+      <div className="flex w-full flex-col gap-6 pt-2">
           <div className="flex items-center justify-between gap-3 pt-1">
             <div className="flex min-w-0 flex-col">
               <div className="flex items-center gap-2">
@@ -591,7 +526,7 @@ export default function OrganiserDashboardPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <StatCard key={stat.label} stat={stat} />
             ))}
@@ -607,8 +542,10 @@ export default function OrganiserDashboardPage() {
               </span>
             </div>
 
-            <LiveEventCard event={liveEvent} />
-            <DraftEventCard event={draftEvent} />
+            <div className="grid gap-4 lg:grid-cols-2">
+              <LiveEventCard event={liveEvent} />
+              <DraftEventCard event={draftEvent} />
+            </div>
           </div>
 
           <div className="flex items-center gap-4 rounded-xl bg-[#171717] p-4 shadow-sm">
@@ -628,7 +565,7 @@ export default function OrganiserDashboardPage() {
             </div>
           </div>
 
-          <div className="sticky bottom-2 z-30 w-full pt-2">
+          <div className="sticky bottom-2 z-30 w-full pt-2 lg:static lg:max-w-sm lg:self-end">
             <Link
               href="/events/create"
               className={buttonClassName({
@@ -645,48 +582,7 @@ export default function OrganiserDashboardPage() {
               Create New Event
             </Link>
           </div>
-        </div>
-      </main>
-
-      <nav className="pb-safe fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#1a1a1a]/95 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[480px] items-center justify-around px-3 py-2 sm:px-6">
-          {bottomNavItems.map((item) =>
-            item.featured ? (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="-mt-5 flex flex-col items-center justify-center gap-1"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ff5451] text-white shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] transition hover:bg-[#e64a47]">
-                  <span className="material-symbols-outlined text-[26px]">
-                    {item.icon}
-                  </span>
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.08em] text-[#a7a0a0]">
-                  {item.label}
-                </span>
-              </Link>
-            ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                aria-current={item.active ? "page" : undefined}
-                className={[
-                  "flex flex-1 flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 text-[10px] uppercase tracking-[0.08em]",
-                  item.active
-                    ? "text-[#ffb3ad]"
-                    : "text-[#a7a0a0] hover:text-[#f3f0ee]",
-                ].join(" ")}
-              >
-                <span className="material-symbols-outlined text-[22px]">
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-              </Link>
-            ),
-          )}
-        </div>
-      </nav>
-    </div>
+      </div>
+    </AppShell>
   );
 }

@@ -116,7 +116,12 @@ export function WalletConnect({ initialWallet = "Freighter Wallet", onSelect }: 
       </button>
 
       <div className="flex items-center justify-center pt-1 text-sm text-zinc-400">
-        <a href="#" className="inline-flex items-center gap-1 hover:text-[#ffb3ad]">
+        <a
+          href="https://freighter.app"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 hover:text-[#ffb3ad]"
+        >
           <span>New to Stellar? Create a Freighter wallet</span>
           <span>↗</span>
         </a>

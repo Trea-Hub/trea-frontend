@@ -105,6 +105,7 @@ To verify Tailwind is working, run `npm run dev`, open `/`, and confirm the foot
 | `NEXT_PUBLIC_STELLAR_RPC_URL` | Soroban RPC endpoint |
 | `NEXT_PUBLIC_CONTRACT_ID` | Deployed `EventRegistration` contract ID |
 | `NEXT_PUBLIC_BACKEND_URL` | Base URL of the trea-backend API |
+| `NEXT_PUBLIC_DEMO_MODE` | Force demo data on (`true`) or off (`false`). Defaults to demo mode when `NEXT_PUBLIC_BACKEND_URL` is empty. |
 
 ## Calling the contract
 

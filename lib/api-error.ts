@@ -31,7 +31,11 @@ export async function fetchJson<T>(input: RequestInfo | URL, init?: RequestInit)
 
     try {
       const body = await response.json();
-      detail = typeof body?.message === "string" ? body.message : detail;
+      if (typeof body?.message === "string") {
+        detail = body.message;
+      } else if (typeof body?.error === "string") {
+        detail = body.error;
+      }
     } catch {
       // Some API failures have no JSON response body.
     }

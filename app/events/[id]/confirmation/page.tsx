@@ -1,21 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-const eventCatalog = {
-  "meridian-2025": {
-    id: "meridian-2025",
-    title: "Meridian 2025",
-    subtitle: "Global Blockchain Summit",
-    date: "Oct 14 – 16, 2025",
-    venue: "Suntec Convention Center, Singapore",
-    seat: "A12 · Upper Hall",
-    ticket: "1x General Pass",
-    hash: "#4928103",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDxpqMMXq5wsOQxn0XHTLg0U2CxVIIWzLh9kxhDWnLoea2LyX32dt-Ak0oXLvQG5y9pKUCKzPSl6jBPVs5lQQcVmYjrykXiFE7fE1Go1xCpiJFhyslA8ZQOl7h73IYsCysndToZqBDafmSKrSYZK-Ja4C1Et-hMF2XVcqLeJQ-IkX8PdfCnqqdiDmop9s1VbwV-lqDTqS7FPFGQu-QnYghiSRgr",
-  },
-};
+import { AppShell } from "@/components/AppShell";
+import { fetchEventById } from "@/lib/events";
 
 export default async function ConfirmationPage({
   params,
@@ -23,15 +10,23 @@ export default async function ConfirmationPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const event = eventCatalog[id as keyof typeof eventCatalog] ?? eventCatalog["meridian-2025"];
+  const event = await fetchEventById(id);
 
   if (!event) {
     notFound();
   }
 
+  const seat = event.id === "meridian-2025" ? "A12 · Upper Hall" : "General Admission";
+  const ticket = "1x General Pass";
+  const hash = "#4928103";
+
   return (
-    <main className="min-h-screen bg-[#131313] text-[#e5e2e1]">
-      <div className="mx-auto max-w-4xl px-4 pb-10 pt-20 sm:px-6 lg:px-8">
+    <AppShell
+      active="tickets"
+      title="Registration Confirmed"
+      maxWidth="4xl"
+      showBottomNav={false}
+    >
         <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[#1b1b1b] px-4 pb-6 pt-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:px-6">
           <div className="pointer-events-none absolute -top-14 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#ff5451]/15 blur-3xl" />
 
@@ -53,19 +48,23 @@ export default async function ConfirmationPage({
             </h1>
 
             <p className="mt-3 max-w-md text-sm text-[#d7d2cf]">
-              Transaction confirmed on Stellar ledger <span className="font-medium text-[#ffb3ad]">{event.hash}</span>
+              Transaction confirmed on Stellar ledger <span className="font-medium text-[#ffb3ad]">{hash}</span>
             </p>
           </div>
 
           <div className="relative z-10 mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#1f1f1f]">
             <div className="relative h-32 w-full overflow-hidden bg-[#2a2a2a]">
-              <Image
-                src={event.image}
-                alt={event.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 896px"
-                className="object-cover opacity-40"
-              />
+              {event.coverImage ? (
+                <Image
+                  src={event.coverImage}
+                  alt={event.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 896px"
+                  className="object-cover opacity-40"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,84,81,0.3),transparent_60%),linear-gradient(135deg,#2a2a2a,#131313)]" />
+              )}
             </div>
 
             <div className="grid gap-4 p-4 sm:grid-cols-[1.2fr_0.8fr] sm:p-5">
@@ -89,15 +88,15 @@ export default async function ConfirmationPage({
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-[#d7d2cf]">Venue</span>
-                    <span className="text-right text-sm font-medium text-[#f3f0ee]">{event.venue}</span>
+                    <span className="text-right text-sm font-medium text-[#f3f0ee]">{event.location}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-[#d7d2cf]">Seat</span>
-                    <span className="text-sm font-medium text-[#f3f0ee]">{event.seat}</span>
+                    <span className="text-sm font-medium text-[#f3f0ee]">{seat}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-[#d7d2cf]">Ticket</span>
-                    <span className="text-sm font-medium text-[#f3f0ee]">{event.ticket}</span>
+                    <span className="text-sm font-medium text-[#f3f0ee]">{ticket}</span>
                   </div>
                 </div>
               </div>
@@ -125,7 +124,7 @@ export default async function ConfirmationPage({
 
           <div className="relative z-10 mt-6 space-y-3">
             <Link
-              href={`/events/${event.id}`}
+              href="/dashboard/user"
               className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] text-base font-semibold text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition hover:bg-[#ff6c67]"
             >
               <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
@@ -163,7 +162,6 @@ export default async function ConfirmationPage({
             </div>
           </div>
         </div>
-      </div>
-    </main>
+    </AppShell>
   );
 }
