@@ -177,24 +177,28 @@ export default function UserDashboardPage() {
   const { notify } = useNotifications();
   const [activeFilter, setActiveFilter] =
     useState<RegistrationFilter>("upcoming");
+  const [refundableOnly, setRefundableOnly] = useState(false);
 
   const visibleRegistrations = useMemo(() => {
-    if (activeFilter === "upcoming") {
-      return registrations.filter(
-        (registration) => registration.status === "upcoming",
-      );
-    }
+    const filtered = registrations.filter((registration) => {
+      if (activeFilter === "upcoming") {
+        return registration.status === "upcoming";
+      }
 
-    if (activeFilter === "past") {
-      return registrations.filter(
-        (registration) =>
+      if (activeFilter === "past") {
+        return (
           registration.status === "past" ||
-          registration.status === "checked-in",
-      );
-    }
+          registration.status === "checked-in"
+        );
+      }
 
-    return [];
-  }, [activeFilter]);
+      return false;
+    });
+
+    return refundableOnly
+      ? filtered.filter((registration) => Boolean(registration.footer?.actionLabel))
+      : filtered;
+  }, [activeFilter, refundableOnly]);
 
   const handleViewPass = (registration: Registration) => {
     notify({
@@ -205,6 +209,18 @@ export default function UserDashboardPage() {
         registration.pass.kind === "poap"
           ? `${registration.pass.value} is available in your Stellar wallet.`
           : `${registration.actionLabel} for ${registration.title} is ready to scan.`,
+    });
+  };
+
+  const handleToggleRefundable = () => {
+    const nextRefundableOnly = !refundableOnly;
+    setRefundableOnly(nextRefundableOnly);
+    notify({
+      tone: "info",
+      title: nextRefundableOnly ? "Filter applied" : "Filter cleared",
+      message: nextRefundableOnly
+        ? "Showing registrations with an active self-refund window."
+        : "Showing all registrations in this tab.",
     });
   };
 
@@ -246,8 +262,19 @@ export default function UserDashboardPage() {
 
               <button
                 type="button"
-                aria-label="Filter registrations"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1d1d1d] text-[#d7d2cf] shadow-sm transition hover:bg-[#242424]"
+                aria-label={
+                  refundableOnly
+                    ? "Show all registrations"
+                    : "Show refundable registrations"
+                }
+                aria-pressed={refundableOnly}
+                onClick={handleToggleRefundable}
+                className={[
+                  "flex h-9 w-9 items-center justify-center rounded-full shadow-sm transition",
+                  refundableOnly
+                    ? "bg-[#ff5451]/20 text-[#ffd9d5] hover:bg-[#ff5451]/30"
+                    : "bg-[#1d1d1d] text-[#d7d2cf] hover:bg-[#242424]",
+                ].join(" ")}
               >
                 <span className="material-symbols-outlined text-[20px]">
                   tune
@@ -396,6 +423,29 @@ export default function UserDashboardPage() {
             ))}
 
             {activeFilter === "waitlist" ? <WaitlistEmptyState /> : null}
+
+            {visibleRegistrations.length === 0 && activeFilter !== "waitlist" ? (
+              <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-white/10 bg-[#1d1d1d] p-8 text-center md:col-span-2 xl:col-span-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2a2a2a] text-[#a7a0a0]">
+                  <span className="material-symbols-outlined text-[26px]">
+                    filter_alt_off
+                  </span>
+                </div>
+                <span className="text-lg font-semibold text-[#f3f0ee]">
+                  No matching registrations
+                </span>
+                <p className="max-w-[280px] text-[13px] text-[#a7a0a0]">
+                  No tickets in this tab match the active refundable filter.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleToggleRefundable}
+                  className="mt-1 rounded-xl bg-[#2a2a2a] px-4 py-2 text-sm font-medium text-[#f3f0ee] transition hover:bg-[#343434]"
+                >
+                  Clear filter
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
     </AppShell>

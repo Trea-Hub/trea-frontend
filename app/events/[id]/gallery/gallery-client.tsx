@@ -53,6 +53,16 @@ export function GalleryClient({
     );
   };
 
+  const sharePhotoOnX = (photo: DemoEventPhoto) => {
+    const text = encodeURIComponent(`${photo.title} — ${eventTitle} on Trea`);
+    const url = encodeURIComponent(window.location.href);
+    window.open(
+      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
   return (
     <AppShell
       active="gallery"
@@ -273,15 +283,14 @@ export function GalleryClient({
                   <span>{(selectedPhoto.likes + (likedIds.includes(selectedPhoto.id) ? 1 : 0))} likes</span>
                 </button>
 
-                <a
-                  href="https://x.com"
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => sharePhotoOnX(selectedPhoto)}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#2a2a2a] px-3 py-2 text-sm font-medium text-[#f3f0ee]"
                 >
                   <span>𝕏</span>
                   <span>Share on X</span>
-                </a>
+                </button>
               </div>
 
               <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[#a7a0a0]">

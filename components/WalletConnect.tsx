@@ -40,9 +40,14 @@ const wallets = [
 type WalletConnectProps = {
   initialWallet?: string;
   onSelect?: (wallet: string) => void;
+  onConnect?: (wallet: string) => void;
 };
 
-export function WalletConnect({ initialWallet = "Freighter Wallet", onSelect }: WalletConnectProps) {
+export function WalletConnect({
+  initialWallet = "Freighter Wallet",
+  onSelect,
+  onConnect,
+}: WalletConnectProps) {
   const [selectedWallet, setSelectedWallet] = useState(initialWallet);
 
   const handleSelect = (walletName: string) => {
@@ -110,6 +115,7 @@ export function WalletConnect({ initialWallet = "Freighter Wallet", onSelect }: 
 
       <button
         type="button"
+        onClick={() => onConnect?.(selectedWallet)}
         className="flex w-full items-center justify-center rounded-xl bg-[#ff5451] px-4 py-3 text-base font-semibold text-[#1b0b0c] transition hover:bg-[#ff6a66]"
       >
         Connect {selectedWallet}

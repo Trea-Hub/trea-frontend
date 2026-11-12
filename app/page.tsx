@@ -397,7 +397,7 @@ export default function Home() {
                   aria-label="Search events"
                   aria-controls="event-results"
                   enterKeyHint="search"
-                  placeholder="Search by event title or description..."
+                  placeholder="Search events or cities..."
                   className="min-w-0 flex-1 bg-transparent text-sm text-[#e5e2e1] placeholder:text-[#8f8a89] outline-none"
                 />
                 {search ? (

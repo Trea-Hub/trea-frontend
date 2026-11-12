@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
+import { ConfirmationActions } from "@/components/ConfirmationActions";
 import { fetchEventById } from "@/lib/events";
 
 export default async function ConfirmationPage({
@@ -135,23 +136,11 @@ export default async function ConfirmationPage({
               <span>View My Registrations</span>
             </Link>
 
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                type="button"
-                className="flex h-11 items-center justify-center gap-2 rounded-xl bg-[#1f1f1f] text-sm font-medium text-[#f3f0ee] shadow-sm transition hover:bg-[#2a2a2a]"
-              >
-                <span className="material-symbols-outlined text-[18px] text-[#ffb3ad]">event</span>
-                <span>Add to Calendar</span>
-              </button>
-
-              <button
-                type="button"
-                className="flex h-11 items-center justify-center gap-2 rounded-xl bg-[#1f1f1f] text-sm font-medium text-[#f3f0ee] shadow-sm transition hover:bg-[#2a2a2a]"
-              >
-                <span className="material-symbols-outlined text-[18px] text-[#ffb3ad]">share</span>
-                <span>Share Ticket</span>
-              </button>
-            </div>
+            <ConfirmationActions
+              title={event.title}
+              date={event.date}
+              location={event.location}
+            />
 
             <div className="flex justify-center pt-2">
               <a
