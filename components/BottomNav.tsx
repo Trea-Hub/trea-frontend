@@ -55,7 +55,7 @@ export function BottomNav({ active }: { active?: AppNavKey }) {
               >
                 <span
                   className={[
-                    "flex h-12 w-12 items-center justify-center rounded-full text-white shadow-[0_0_24px_-4px_rgba(239,68,68,0.35)] transition",
+                    "flex h-12 w-12 items-center justify-center rounded-full text-[#1b0b0c] shadow-[0_0_24px_-4px_rgba(255,84,81,0.35)] transition",
                     isActive ? "bg-[#ff6a64]" : "bg-[#ff5451] hover:bg-[#e64a47]",
                   ].join(" ")}
                 >

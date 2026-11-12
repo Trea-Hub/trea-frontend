@@ -36,7 +36,7 @@ export function AppShell({
   contentClassName,
 }: AppShellProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-[#131313] text-[#e5e2e1]">
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-[#131313] text-[#e5e2e1]">
       <AppHeader
         active={active}
         title={title}

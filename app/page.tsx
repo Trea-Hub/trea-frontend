@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { EventCardSkeleton } from "@/components/LoadingSkeleton";
+import { Modal } from "@/components/Modal";
 import { useNotifications } from "@/components/Notifications";
 import { ApiError, getErrorMessage } from "@/lib/api-error";
 import { fetchEvents, type EventItem } from "@/lib/events";
@@ -110,6 +113,147 @@ function ArrowIcon({ direction }: { direction: "previous" | "next" }) {
   );
 }
 
+function SpotlightCard({ event }: { event: EventItem }) {
+  const filled =
+    event.registeredCount !== null && event.capacity && event.capacity > 0
+      ? Math.min(
+          100,
+          Math.round((event.registeredCount / event.capacity) * 1000) / 10,
+        )
+      : null;
+
+  return (
+    <section className="pt-2 pb-6" aria-labelledby="spotlight-heading">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ffb3ad]">
+            Spotlight
+          </span>
+          <span className="h-1 w-1 rounded-full bg-[#ff5451]" />
+        </div>
+        <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#a7a0a0]">
+          Verified On-Chain
+        </span>
+      </div>
+
+      <Link
+        href={`/events/${encodeURIComponent(event.id)}`}
+        className="group block overflow-hidden rounded-2xl border border-white/10 bg-[#1b1b1b] shadow-[0_18px_40px_rgba(0,0,0,0.45)] transition hover:border-[#ff5451]/30"
+      >
+        <div className="relative h-56 w-full overflow-hidden sm:h-64">
+          {event.image ? (
+            <Image
+              src={event.image}
+              alt={event.title}
+              fill
+              priority
+              unoptimized
+              sizes="(max-width: 768px) 100vw, 896px"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#2a1414] via-[#1b1b1b] to-[#131313]" />
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1b1b1b] via-[#1b1b1b]/30 to-transparent" />
+
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
+            <span
+              className={[
+                "rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md",
+                event.badgeClassName ?? "bg-white/10 text-[#e5e2e1]",
+              ].join(" ")}
+            >
+              {event.badge ?? "Featured"}
+            </span>
+            <span className="rounded-md bg-[#131313]/80 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#ffb3ad] backdrop-blur-md">
+              On-Chain Pass
+            </span>
+          </div>
+
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-3">
+            <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full bg-[#131313]/85 px-2.5 py-1 text-[10px] font-medium text-[#e5e2e1] backdrop-blur-md">
+              <span className="material-symbols-outlined text-[14px] text-[#ff5451]">
+                location_on
+              </span>
+              <span className="truncate">{event.location}</span>
+            </span>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12em]">
+              <span className="rounded bg-[#ff5451]/20 px-2 py-1 text-[#ffb3ad]">
+                {event.date}
+              </span>
+              <span className="text-[#a7a0a0]">{event.price}</span>
+            </div>
+            {filled !== null ? (
+              <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ffb3ad]">
+                {filled}% Claimed
+              </span>
+            ) : null}
+          </div>
+
+          <h2
+            id="spotlight-heading"
+            className="mt-2 text-xl font-semibold leading-tight tracking-tight text-[#f3f0ee] transition group-hover:text-[#ffb3ad] sm:text-2xl"
+          >
+            {event.title}
+          </h2>
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#a7a0a0]">
+            {event.description}
+          </p>
+
+          {filled !== null &&
+          event.registeredCount !== null &&
+          event.capacity ? (
+            <div className="mt-4 space-y-1.5">
+              <div className="h-1 overflow-hidden rounded-full bg-[#353534]">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#ff5451] to-[#ffb3b6]"
+                  style={{ width: `${filled}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.12em] text-[#a7a0a0]">
+                <span>
+                  {event.registeredCount.toLocaleString("en-US")} /{" "}
+                  {event.capacity.toLocaleString("en-US")} Attendees
+                </span>
+                <span className="text-[#e5e2e1]">On Stellar</span>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mt-4 flex flex-col gap-3 rounded-xl bg-[#201f1f] p-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a7a0a0]">
+                Access Pass
+              </span>
+              <div className="mt-1 flex items-baseline gap-2">
+                <span className="text-2xl font-semibold tracking-tight text-[#f3f0ee]">
+                  {event.price}
+                </span>
+                <span className="text-[11px] text-[#a7a0a0]">
+                  secured by Soroban
+                </span>
+              </div>
+            </div>
+
+            <span className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#ff5451] px-4 py-2.5 text-sm font-semibold text-[#1b0b0c] shadow-[0_0_20px_-4px_rgba(255,84,81,0.5)] transition group-hover:bg-[#e64a47]">
+              {event.actionLabel}
+              <span className="material-symbols-outlined text-[18px]">
+                arrow_forward
+              </span>
+            </span>
+          </div>
+        </div>
+      </Link>
+    </section>
+  );
+}
+
 export default function Home() {
   const { notify } = useNotifications();
   const fetchErrorShown = useRef(false);
@@ -117,6 +261,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -198,12 +343,22 @@ export default function Home() {
   }, [activeFilter, debouncedSearch, notify, reloadKey]);
 
   const hasActiveDiscovery = search.trim().length > 0 || activeFilter !== "all";
-  const totalPages = Math.max(1, Math.ceil(events.length / PAGE_SIZE));
+  const spotlightEvent =
+    !isLoading && !error && !hasActiveDiscovery && events.length > 0
+      ? events[0]
+      : null;
+  const listEvents = spotlightEvent ? events.slice(1) : events;
+  const totalPages = Math.max(1, Math.ceil(listEvents.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const visibleEvents = events.slice(pageStart, pageStart + PAGE_SIZE);
-  const resultStart = events.length === 0 ? 0 : pageStart + 1;
-  const resultEnd = Math.min(pageStart + PAGE_SIZE, events.length);
+  const visibleEvents = listEvents.slice(pageStart, pageStart + PAGE_SIZE);
+  const listOffset = spotlightEvent ? 1 : 0;
+  const resultStart =
+    listEvents.length === 0 ? 0 : listOffset + pageStart + 1;
+  const resultEnd = Math.min(
+    listOffset + pageStart + PAGE_SIZE,
+    events.length,
+  );
 
   function clearSearch() {
     setSearch("");
@@ -261,6 +416,7 @@ export default function Home() {
             <button
               type="button"
               aria-label="Quick scan"
+              onClick={() => setIsScannerOpen(true)}
               className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#1f1f1f] text-[#ffb3ad] shadow-[0_10px_20px_rgba(0,0,0,0.22)] transition hover:bg-[#2a2a2a]"
             >
               <ScanIcon />
@@ -299,6 +455,8 @@ export default function Home() {
             })}
           </div>
         </section>
+
+        {spotlightEvent ? <SpotlightCard event={spotlightEvent} /> : null}
 
         <section id="event-results" className="pt-4" aria-busy={isLoading}>
           <p className="sr-only" aria-live="polite">
@@ -345,7 +503,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={retryEvents}
-                className="mt-5 rounded-lg bg-[#ff5451] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#ff6a67]"
+                className="mt-5 rounded-lg bg-[#ff5451] px-4 py-2 text-sm font-semibold text-[#1b0b0c] transition hover:bg-[#ff6a67]"
               >
                 Try again
               </button>
@@ -374,13 +532,15 @@ export default function Home() {
                 {hasActiveDiscovery ? "Clear filters" : "Refresh"}
               </button>
             </div>
-          ) : (
+          ) : listEvents.length === 0 ? null : (
             <>
               <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {visibleEvents.map((event) => (
                   <Card
                     key={event.id}
                     title={event.title}
+                    imageSrc={event.image}
+                    imageAlt={event.title}
                     className="h-full bg-[#1e1d1d]"
                     metadata={
                       <div className="flex flex-wrap items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12em] text-[#d7d2cf]">
@@ -423,11 +583,33 @@ export default function Home() {
                       <p className="leading-6 text-[#cfc9c8]">{event.description}</p>
 
                       {event.registeredCount !== null ? (
-                        <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.12em] text-[#a7a0a0]">
-                          <span>Registered</span>
-                          <span className="font-medium text-[#f3f0ee]">
-                            {event.registeredCount}
-                          </span>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.12em] text-[#a7a0a0]">
+                            <span>Capacity</span>
+                            <span className="font-medium text-[#f3f0ee]">
+                              {event.registeredCount.toLocaleString("en-US")}
+                              {event.capacity
+                                ? ` / ${event.capacity.toLocaleString("en-US")}`
+                                : ""}{" "}
+                              Registered
+                            </span>
+                          </div>
+                          {event.capacity && event.capacity > 0 ? (
+                            <div className="h-1 overflow-hidden rounded-full bg-[#353534]">
+                              <div
+                                className="h-full rounded-full bg-[#ff5451]"
+                                style={{
+                                  width: `${Math.min(
+                                    100,
+                                    Math.round(
+                                      (event.registeredCount / event.capacity) *
+                                        100,
+                                    ),
+                                  )}%`,
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       ) : null}
 
@@ -475,6 +657,50 @@ export default function Home() {
           )}
         </section>
       </div>
+
+      <Modal
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        title="Ticket Validator"
+        description="Point your camera at a Stellar dynamic pass to verify entry credentials on-chain."
+      >
+        <div className="relative flex aspect-square w-full flex-col items-center justify-center overflow-hidden rounded-xl bg-[#0e0e0e] p-6">
+          <span className="absolute inset-x-4 top-4 h-0.5 animate-bounce bg-[#ff5451] shadow-[0_0_8px_#ff5451]" />
+          <span className="material-symbols-outlined text-[72px] text-[#909192]">
+            center_focus_weak
+          </span>
+          <span className="mt-2 text-xs uppercase tracking-[0.14em] text-[#a7a0a0]">
+            Awaiting QR stream...
+          </span>
+          <span className="mt-1 text-[10px] uppercase tracking-[0.14em] text-[#ffb3ad]">
+            Demo mode
+          </span>
+        </div>
+
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <Button
+            variant="secondary"
+            fullWidth
+            onClick={() => setIsScannerOpen(false)}
+          >
+            Cancel scan
+          </Button>
+          <Button
+            fullWidth
+            onClick={() => {
+              setIsScannerOpen(false);
+              notify({
+                tone: "success",
+                title: "Pass verified",
+                message:
+                  "Dynamic QR credential validated against Stellar state.",
+              });
+            }}
+          >
+            Simulate scan
+          </Button>
+        </div>
+      </Modal>
     </AppShell>
   );
 }

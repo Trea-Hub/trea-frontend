@@ -45,7 +45,7 @@ export function Card({
             <div className="flex min-w-0 flex-1 flex-col gap-2">
               {metadata ? <div>{metadata}</div> : null}
 
-              <h3 className="line-clamp-2 text-xl font-semibold tracking-tight text-white">
+              <h3 className="line-clamp-2 text-xl font-semibold tracking-tight text-[#f3f0ee]">
                 {title}
               </h3>
             </div>
@@ -57,6 +57,7 @@ export function Card({
                   alt={imageAlt}
                   fill
                   sizes="64px"
+                  unoptimized
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
@@ -64,7 +65,7 @@ export function Card({
           </div>
 
           {children ? (
-            <div className="flex flex-col gap-4 text-sm text-zinc-300">
+            <div className="flex flex-col gap-4 text-sm text-[#d7d2cf]">
               {children}
             </div>
           ) : null}
@@ -89,6 +90,7 @@ export function Card({
             alt={imageAlt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            unoptimized
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1d1d1d] via-transparent to-transparent" />
@@ -99,10 +101,12 @@ export function Card({
         {metadata ? <div>{metadata}</div> : null}
 
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight text-white">
+          <h3 className="text-xl font-semibold tracking-tight text-[#f3f0ee]">
             {title}
           </h3>
-          {children ? <div className="text-sm text-zinc-300">{children}</div> : null}
+          {children ? (
+            <div className="text-sm text-[#d7d2cf]">{children}</div>
+          ) : null}
         </div>
 
         {action ? <div className="pt-1">{action}</div> : null}

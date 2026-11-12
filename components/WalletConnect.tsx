@@ -110,7 +110,7 @@ export function WalletConnect({ initialWallet = "Freighter Wallet", onSelect }: 
 
       <button
         type="button"
-        className="flex w-full items-center justify-center rounded-xl bg-[#ff5451] px-4 py-3 text-base font-semibold text-[#2d0b0d] transition hover:bg-[#ff6a66]"
+        className="flex w-full items-center justify-center rounded-xl bg-[#ff5451] px-4 py-3 text-base font-semibold text-[#1b0b0c] transition hover:bg-[#ff6a66]"
       >
         Connect {selectedWallet}
       </button>
@@ -123,7 +123,9 @@ export function WalletConnect({ initialWallet = "Freighter Wallet", onSelect }: 
           className="inline-flex items-center gap-1 hover:text-[#ffb3ad]"
         >
           <span>New to Stellar? Create a Freighter wallet</span>
-          <span>↗</span>
+          <span className="material-symbols-outlined text-[16px]">
+            open_in_new
+          </span>
         </a>
       </div>
     </div>

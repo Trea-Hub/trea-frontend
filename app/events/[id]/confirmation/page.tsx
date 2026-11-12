@@ -129,7 +129,7 @@ export default async function ConfirmationPage({
           <div className="relative z-10 mt-6 space-y-3">
             <Link
               href="/dashboard/user"
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] text-base font-semibold text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition hover:bg-[#ff6c67]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] text-base font-semibold text-[#1b0b0c] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition hover:bg-[#ff6c67]"
             >
               <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
               <span>View My Registrations</span>

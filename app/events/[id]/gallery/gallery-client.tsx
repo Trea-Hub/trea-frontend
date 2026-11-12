@@ -107,7 +107,9 @@ export function GalleryClient({
                 </p>
               </div>
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2a2a2a] text-[#a7a0a0]">
-                ⤴
+                <span className="material-symbols-outlined text-[18px]">
+                  north_east
+                </span>
               </div>
             </div>
 
@@ -123,7 +125,9 @@ export function GalleryClient({
               }
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#ff5451] px-4 py-3 text-base font-semibold text-[#1d0d0d] transition hover:bg-[#ff6e66]"
             >
-              <span>📷</span>
+              <span className="material-symbols-outlined text-[19px]">
+                add_photo_alternate
+              </span>
               <span>Upload Event Photos</span>
             </button>
           </div>

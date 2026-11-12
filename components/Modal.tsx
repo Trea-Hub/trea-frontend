@@ -61,11 +61,14 @@ export function Modal({
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.18em] text-rose-300">
-              <span className="inline-block h-2 w-2 rounded-full bg-rose-400" />
+            <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.18em] text-[#ffb3ad]">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#ff5451]" />
               Stellar Protocol Access
             </div>
-            <h2 id="modal-title" className="text-2xl font-semibold text-white">
+            <h2
+              id="modal-title"
+              className="text-2xl font-semibold tracking-tight text-[#f3f0ee]"
+            >
               {title}
             </h2>
           </div>
@@ -74,13 +77,17 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-zinc-200 transition hover:bg-white/10"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-[#e5e2e1] transition hover:bg-white/10"
           >
             ×
           </button>
         </div>
 
-        {description ? <div className="mb-4 text-sm text-zinc-300">{description}</div> : null}
+        {description ? (
+          <div className="mb-4 text-sm leading-6 text-[#d7d2cf]">
+            {description}
+          </div>
+        ) : null}
 
         {children}
       </div>

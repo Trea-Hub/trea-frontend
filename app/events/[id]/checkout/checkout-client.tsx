@@ -33,12 +33,12 @@ export type CheckoutEvent = {
 type PaymentToken = "XLM" | "USDC";
 
 const buttonToneClasses: Record<CheckoutTone, string> = {
-  idle: "bg-[#ff5451] text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
-  pending: "bg-[#ff5451]/80 text-[#fff] opacity-80 transition-all",
+  idle: "bg-[#ff5451] text-[#1b0b0c] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
+  pending: "bg-[#ff5451]/80 text-[#1b0b0c] opacity-80 transition-all",
   confirmed:
     "bg-[#ffb3ad] text-[#410004] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all",
   failed:
-    "bg-[#ff5451] text-[#fff] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
+    "bg-[#ff5451] text-[#1b0b0c] shadow-[0_0_24px_rgba(255,84,81,0.35)] transition-all hover:bg-[#ff6c67]",
 };
 
 const pipelineToneClasses: Record<CheckoutTone, string> = {

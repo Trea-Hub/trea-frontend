@@ -866,6 +866,7 @@ function toItem(record: DemoEventRecord): EventItem {
     description: record.description,
     image: record.coverImage,
     registeredCount: record.registered,
+    capacity: record.capacity,
     actionLabel: isFree ? "Get Pass" : "View Event",
   };
 }

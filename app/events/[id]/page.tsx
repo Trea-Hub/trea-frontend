@@ -2,20 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
+import { EventActions } from "@/components/EventActions";
 import { EventTabs } from "@/components/EventTabs";
 import { fetchEventById } from "@/lib/events";
-
-function IconButton({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2a2a2a]/80 text-[#e5e2e1] backdrop-blur-md transition hover:bg-[#343434]"
-    >
-      {children}
-    </button>
-  );
-}
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -71,10 +60,7 @@ export default async function EventPage({
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <IconButton label="Share event">↗</IconButton>
-                <IconButton label="Bookmark event">★</IconButton>
-              </div>
+              <EventActions title={event.title} />
             </div>
           </div>
 
@@ -100,7 +86,9 @@ export default async function EventPage({
                 <div className="rounded-2xl border border-white/10 bg-[#1f1f1f] p-4">
                   <div className="mb-3 flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2a2a2a] text-[#ffb3ad]">
-                      📅
+                      <span className="material-symbols-outlined text-[20px]">
+                        calendar_month
+                      </span>
                     </div>
                     <div className="min-w-0">
                       <SectionLabel>Date & Schedule</SectionLabel>
@@ -115,11 +103,13 @@ export default async function EventPage({
                 <div className="rounded-2xl border border-white/10 bg-[#1f1f1f] p-4">
                   <div className="mb-3 flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2a2a2a] text-[#ffb3ad]">
-                      📍
+                      <span className="material-symbols-outlined text-[20px]">
+                        location_on
+                      </span>
                     </div>
                     <div className="min-w-0">
                       <SectionLabel>Venue & Format</SectionLabel>
-                      <p className="mt-1 truncate text-sm font-medium text-[#f3f0ee]">
+                      <p className="mt-1 text-sm font-medium leading-snug text-[#f3f0ee]">
                         {event.location}
                       </p>
                     </div>
@@ -136,20 +126,26 @@ export default async function EventPage({
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2a2a2a] text-[#ffb3ad]">
-                      🎫
+                      <span className="material-symbols-outlined text-[20px]">
+                        confirmation_number
+                      </span>
                     </div>
                     <div>
                       <SectionLabel>Tier Pass</SectionLabel>
-                      <div className="mt-1 flex items-baseline gap-2">
-                        <span className="text-2xl font-semibold text-[#f3f0ee]">{event.price}</span>
+                      <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                        <span className="whitespace-nowrap text-2xl font-semibold text-[#f3f0ee]">
+                          {event.price}
+                        </span>
                         {event.currency ? (
-                          <span className="text-sm text-[#a7a0a0]">{event.currency}</span>
+                          <span className="whitespace-nowrap text-sm text-[#a7a0a0]">
+                            {event.currency}
+                          </span>
                         ) : null}
                       </div>
                     </div>
                   </div>
 
-                  <span className="rounded-full border border-white/10 bg-[#2a2a2a] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-[#ffb3ad]">
+                  <span className="whitespace-nowrap rounded-full border border-white/10 bg-[#2a2a2a] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-[#ffb3ad]">
                     {event.badge}
                   </span>
                 </div>

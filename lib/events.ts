@@ -33,6 +33,7 @@ export type EventItem = {
   description: string;
   image?: string;
   registeredCount: number | null;
+  capacity?: number | null;
   actionLabel: string;
 };
 
@@ -165,6 +166,7 @@ function mapBackendEvent(event: BackendEvent): EventItem | null {
     location: event.location?.trim() || "Location TBA",
     description: event.description?.trim() || "Details coming soon.",
     registeredCount,
+    capacity: null,
     actionLabel: isFree ? "Get Pass" : "View Event",
   };
 }

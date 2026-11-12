@@ -92,7 +92,7 @@ const statusStyles: Record<TicketStatus, { chip: string; dot: string }> = {
 
 const actionStyles: Record<ActionVariant, string> = {
   primary:
-    "bg-[#ff5451] text-white shadow-[0_0_24px_rgba(255,84,81,0.28)] hover:bg-[#ff6a64]",
+    "bg-[#ff5451] text-[#1b0b0c] shadow-[0_0_24px_rgba(255,84,81,0.28)] hover:bg-[#ff6a64]",
   secondary: "bg-[#2a2a2a] text-[#f3f0ee] hover:bg-[#343434]",
 };
 

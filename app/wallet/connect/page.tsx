@@ -26,7 +26,7 @@ export default function WalletConnectPage() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#ff5451] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ff6c67]"
+          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#ff5451] px-4 py-2.5 text-sm font-semibold text-[#1b0b0c] transition hover:bg-[#ff6c67]"
         >
           <span className="material-symbols-outlined text-[18px]">
             account_balance_wallet
